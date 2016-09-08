@@ -1,6 +1,8 @@
 package junrui.web;
 
+import junrui.mapper.PersonMapper;
 import junrui.mapper.UserMapper;
+import junrui.model.Person;
 import junrui.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,13 +20,13 @@ public class HelloController {
     private final Logger logger = LoggerFactory.getLogger(HelloController.class);
 
     @Autowired
-    private UserMapper userMapper;
+    private PersonMapper personMapper;
 
     @RequestMapping("/")
     public String anyFunctionName(Map<String, Object> model) {
         logger.debug("in anyFunctionName");
-        User user = userMapper.selectByPrimaryKey(1);
-        model.put("message", user.getUsername());
+        Person person = personMapper.selectByPrimaryKey(1);
+        model.put("message", person.getName()); //test Person
         return "hello.jsp"; // view name
     }
 
