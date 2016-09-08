@@ -42,6 +42,14 @@ public class SearchLogic {
         return map;
     }
 
+    public Publication searchById(int id) {
+        Publication publication = publMapper.selectByPrimaryKey(id);
+        if (publication != null) {
+            publication.setAuthors(personMapper.selectByPublicationId(publication.getId(), 0));
+        }
+        return publication;
+    }
+
     private Map<String, Object> calculatePages(int resultSize, int page) {
         Map<String, Object> map = new HashMap<>();
 

@@ -1,6 +1,8 @@
 package junrui.web;
 
 import junrui.logic.SearchLogic;
+import junrui.mapper.PublicationMapper;
+import junrui.model.Publication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,14 @@ public class PageController {
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String home() {
         return "home.jsp";
+    }
+
+    @RequestMapping(value = "/info", method = RequestMethod.GET)
+    public String info(@RequestParam int id, Map<String, Object> model) {
+        id = Math.max(id, 0);
+        Publication publication = searchLogic.searchById(id);
+        model.put("publ", publication);
+        return "info.jsp";
     }
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)

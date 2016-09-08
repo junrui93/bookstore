@@ -17,45 +17,50 @@
 
   <h2>Info</h2>
 
-  <table class="table">
-    <thead>
-      <tr>
-        <th style="width:15%"></th>
-        <th></th>
-    </thead>
+  <table class="table table-bordered">
     <tbody>
       <tr>
-        <td>type</td>
-        <td>${lit.type}</td>
+        <td style="width:15%">title</td>
+        <td><span class="title">${publ.title}</span></td>
       </tr>
-      <c:forEach var="key" items="${lit.attr.keySet()}">
-        <tr>
-          <td>${key}</td>
-          <td>
-            <c:forEach var="value" items="${lit.attr.get(key)}">
-              <c:choose>
-                <c:when test="${key == 'title'}">
-                  <strong>${value}</strong>
-                </c:when>
-                <c:when test="${key == 'ee'}">
-                  <a href="${value}">${value}</a>
-                </c:when>
-                <c:when test="${key == 'url' || key == 'cite'}">
-                  <a href="http://dblp.uni-trier.de/${value}">${value}</a>
-                </c:when>
-                <c:otherwise>
-                  ${value}
-                </c:otherwise>
-              </c:choose>
-              <br>
-            </c:forEach>
-          </td>
-        </tr>
-      </c:forEach>
+      <tr>
+        <td>type</td>
+        <td>${publ.type}</td>
+      </tr>
+      <tr>
+        <td>author</td>
+        <td>
+          <c:forEach var="author" items="${publ.authors}" varStatus="status">
+            <span class="author">${author.name}</span>${status.last ? '' : ','}
+          </c:forEach>
+        </td>
+      </tr>
+      <tr>
+        <td>price</td>
+        <td><strong class="text-danger">$${publ.price}</strong></td>
+      </tr>
+      <tr>
+        <td>venue</td>
+        <td>${publ.venue}</td>
+      </tr>
+      <tr>
+        <td>year</td>
+        <td>${publ.year}</td>
+      </tr>
+      <tr>
+        <td>image</td>
+        <td><img src="${publ.imagePath == null ? 'static/default.jpg' : imagePath}" style="height:360px; max-width:100%"/></td>
+      </tr>
+      <tr>
+        <td>description</td>
+        <td><pre>${publ.description}</pre></td>
+      </tr>
     </tbody>
   </table>
 
-  <div class="panel panel-default">
+  <button class="btn btn-default">Add to cart</button><br><br>
+
+  <div class="panel panel-default" hidden>
     <div class="panel-heading"><h3 class="panel-title">Analytics</h3></div>
     <div class="panel-body">
       <p>You have visited this item for ${numVisited} time${numVisited > 1 ? 's' : ''}</p>

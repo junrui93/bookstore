@@ -36,7 +36,7 @@
           <div class="col-md-10">
             <p>
               <span class="label label-default">${publ.type}</span>
-              <a href="search?action=info&id=${publ.id}" target="_blank"><span class="title">${publ.title}</span></a>
+              <a href="info?id=${publ.id}" target="_blank"><span class="title">${publ.title}</span></a>
             </p>
             <p class="author text-muted">
               <c:forEach var="author" items="${publ.authors}" varStatus="status">
@@ -50,10 +50,6 @@
       </li>
     </c:forEach>
   </ul>
-  <input name="action" value="addcart" hidden="true" />
-  <button id="addcart" class="btn btn-default">Add to Shopping Cart</button>
-  <button id="checkall" class="btn btn-default">Check All</button>
-  <button id="uncheckall" class="btn btn-default">Uncheck All</button>
   </form>
 
   <nav aria-label="Page navigation">

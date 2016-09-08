@@ -39,9 +39,10 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select id, type_id, title, venue, year, price, removed, image_path, description
-    from publication
-    where id = #{id,jdbcType=INTEGER}
+    select p.id, type_id, title, venue, year, price, removed, image_path, description, pt.name as type
+    from publication p
+    left join publ_type pt on pt.id = p.type_id
+    where p.id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select id, type_id, title, venue, year, price, removed, image_path, description
