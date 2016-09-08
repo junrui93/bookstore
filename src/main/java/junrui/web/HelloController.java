@@ -26,7 +26,7 @@ public class HelloController {
     public String anyFunctionName(Map<String, Object> model) {
         logger.debug("in anyFunctionName");
         Person person = personMapper.selectByPrimaryKey(1);
-        model.put("message", person.getName());
+        model.put("message", person.getName()); //test Person
         return "hello.jsp"; // view name
     }
 
