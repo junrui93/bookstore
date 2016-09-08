@@ -1,6 +1,7 @@
 package junrui.model;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 public class Publication {
@@ -94,7 +95,7 @@ public class Publication {
     }
 
     public BigDecimal getPrice() {
-        return price;
+        return price == null ? null : price.setScale(2, RoundingMode.HALF_UP);
     }
 
     public void setPrice(BigDecimal price) {

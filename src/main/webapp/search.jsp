@@ -28,27 +28,27 @@
   <form id="addForm" action="search">
   <ul class="list-group">
     <c:forEach var="publ" items="${publications}">
-        <li class="list-group-item">
-          <div class="row">
-            <div class="col-md-1 col-sm-1 col-xs-1">
-              <div class="row">
-                <div class="col-md-9 col-md-offset-3">
-                  <input type="checkbox" name="cart" value="${publ.id}" style="margin-top:20px" />
-                </div>
-              </div>
-            </div>
-            <div class="col-md-11 col-sm-11 col-xs-11">
-              <p>
-                <span class="label label-default">${publ.type}</span>
-                <c:forEach var="author" items="${publ.authors}" varStatus="status">
-                  <span class="author">${author.name}</span>${status.last ? ':' : ','}
-                </c:forEach>
-              </p>
-              <a href="search?action=info&id=${publ.id}" target="_blank"><span class="title">${publ.title}</span></a>
-            </div>
+      <li class="list-group-item">
+        <div class="row">
+          <div class="col-md-2">
+            <img src="${publ.imagePath == null ? 'static/default.jpg' : imagePath}" class="center-block" style="height:160px; max-width:100%"/>
           </div>
-        </li>
-     </c:forEach>
+          <div class="col-md-10">
+            <p>
+              <span class="label label-default">${publ.type}</span>
+              <a href="search?action=info&id=${publ.id}" target="_blank"><span class="title">${publ.title}</span></a>
+            </p>
+            <p class="author text-muted">
+              <c:forEach var="author" items="${publ.authors}" varStatus="status">
+                <span class="author">${author.name}</span>${status.last ? '' : ','}
+              </c:forEach>
+            </p>
+            <p class="price text-danger strong"><strong>$${publ.price}</strong></p>
+            <button class="btn btn-default">Add to cart</button>
+          </div>
+        </div>
+      </li>
+    </c:forEach>
   </ul>
   <input name="action" value="addcart" hidden="true" />
   <button id="addcart" class="btn btn-default">Add to Shopping Cart</button>
