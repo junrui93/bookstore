@@ -18,4 +18,8 @@ public interface PersonMapper {
 
     @Select("select id, name, aux, bibtex from person where name=#{name} and type=#{type} limit 1")
     Person selectByNameAndType(Person record);
+
+    List<Person> selectByPublicationId(
+            @Param("publicationId") int publicationId,
+            @Param("type") Integer type);
 }

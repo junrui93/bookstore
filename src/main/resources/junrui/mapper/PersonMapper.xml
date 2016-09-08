@@ -35,4 +35,13 @@
     select id, type, name, aux, bibtex
     from person
   </select>
+  <select id="selectByPublicationId" resultType="Person">
+    select id, type, name, aux, bibtex
+    from person p
+    left join publ_person pp on pp.person_id = p.id
+    where pp.publ_id = #{publicationId}
+    <if test="type != null">
+      and p.type = #{type}
+    </if>
+  </select>
 </mapper>

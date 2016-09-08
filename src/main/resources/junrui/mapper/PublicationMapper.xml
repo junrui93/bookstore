@@ -47,4 +47,62 @@
     select id, type_id, title, venue, year, price, removed, image_path, description
     from publication
   </select>
+  <select id="selectByKeyword" resultType="Publication">
+    select p.id, type_id, title, venue, year, price, removed, image_path, description, pt.name as type
+    from publication p
+    left join publ_type pt on pt.id = p.type_id
+    where title like '%${keyword}%'
+    or venue like '%${keyword}%'
+    or year = #{keyword}
+    or description like '%${keyword}%'
+    or pt.name = #{keyword}
+    limit #{offset}, #{limit}
+  </select>
+  <select id="countByKeyword" resultType="int">
+    select count(*)
+    from publication p
+    left join publ_type pt on pt.id = p.type_id
+    where title like '%${keyword}%'
+    or venue like '%${keyword}%'
+    or year = #{keyword}
+    or description like '%${keyword}%'
+    or pt.name = #{keyword}
+  </select>
+  <select id="selectByCondition" resultType="Publication">
+    select p.id, type_id, title, venue, year, price, removed, image_path, description, pt.name as type
+    from publication p
+    left join publ_type pt on pt.id = p.type_id
+    <where>
+      <if test="condition.title != null">title like '%${condition.title}%'</if>
+      <if test="condition.venue != null">and venue like '%${condition.venue}%'</if>
+      <if test="condition.yearfrom != null and condition.yearto != null">
+        and year between ${condition.yearfrom} and ${condition.yearto}
+      </if>
+      <if test="condition.type != null">
+        and
+        <foreach collection="condition.type" index="index" item="item" open="(" separator=" or " close=")">
+          pt.name = #{item}
+        </foreach>
+      </if>
+    </where>
+    limit #{offset}, #{limit}
+  </select>
+  <select id="countByCondition" resultType="int">
+    select count(*)
+    from publication p
+    left join publ_type pt on pt.id = p.type_id
+    <where>
+      <if test="condition.title != null">title like '%${condition.title}%'</if>
+      <if test="condition.venue != null">and venue like '%${condition.venue}%'</if>
+      <if test="condition.yearfrom != null and condition.yearto != null">
+        and year between ${condition.yearfrom} and ${condition.yearto}
+      </if>
+      <if test="condition.type != null">
+        and
+        <foreach collection="condition.type" index="index" item="item" open="(" separator=" or " close=")">
+          pt.name = #{item}
+        </foreach>
+      </if>
+    </where>
+  </select>
 </mapper>

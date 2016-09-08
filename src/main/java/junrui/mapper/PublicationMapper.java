@@ -1,7 +1,10 @@
 package junrui.mapper;
 
 import java.util.List;
+import java.util.Map;
+
 import junrui.model.Publication;
+import org.apache.ibatis.annotations.Param;
 
 public interface PublicationMapper {
     int deleteByPrimaryKey(Integer id);
@@ -13,4 +16,18 @@ public interface PublicationMapper {
     List<Publication> selectAll();
 
     int updateByPrimaryKey(Publication record);
+
+    List<Publication> selectByKeyword(
+            @Param("keyword") String keyword,
+            @Param("offset") int offset,
+            @Param("limit") int limit);
+
+    int countByKeyword(@Param("keyword") String keyword);
+
+    List<Publication> selectByCondition(
+            @Param("condition") Map<String, Object> condition,
+            @Param("offset") int offset,
+            @Param("limit") int limit);
+
+    int countByCondition(@Param("condition") Map<String, Object> condition);
 }
