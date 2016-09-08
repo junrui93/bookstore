@@ -1,0 +1,35 @@
+group 'junrui'
+version '1.0'
+
+apply plugin: 'java'
+apply plugin: 'war'
+apply from: 'https://raw.github.com/akhikhl/gretty/master/pluginScripts/gretty.plugin'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'org.slf4j:slf4j-api:1.7.21'
+    compile 'org.slf4j:jcl-over-slf4j:1.7.21'
+    compile 'ch.qos.logback:logback-classic:1.1.7'
+    compile('org.springframework:spring-context:4.3.2.RELEASE') {
+        exclude group: 'commons-logging', module: 'commons-logging'
+    }
+    compile 'org.springframework:spring-webmvc:4.3.2.RELEASE'
+    compile 'org.springframework:spring-jdbc:4.3.2.RELEASE'
+    compile 'javax.servlet:jstl:1.2'
+    //providedCompile 'javax.servlet:javax.servlet-api:3.0.1'
+    compile 'org.mybatis:mybatis:3.4.1'
+    compile 'org.mybatis:mybatis-spring:1.3.0'
+    compile 'org.apache.commons:commons-dbcp2:2.1.1'
+    compile 'mysql:mysql-connector-java:5.1.39'
+    compile 'org.dom4j:dom4j:2.0.0'
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.springframework:spring-test:4.3.2.RELEASE'
+}
+
+gretty{
+    servletContainer = 'tomcat7'
+    contextPath = '/'
+}

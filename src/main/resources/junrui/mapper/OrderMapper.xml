@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="junrui.mapper.OrderMapper">
+  <resultMap id="BaseResultMap" type="junrui.model.Order">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="publ_id" jdbcType="INTEGER" property="publId" />
+    <result column="number" jdbcType="INTEGER" property="number" />
+    <result column="add_ts" jdbcType="TIMESTAMP" property="addTs" />
+    <result column="remove_ts" jdbcType="TIMESTAMP" property="removeTs" />
+    <result column="commit_ts" jdbcType="TIMESTAMP" property="commitTs" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="junrui.model.Order">
+    insert into order (id, user_id, publ_id, 
+      number, add_ts, remove_ts, 
+      commit_ts)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{publId,jdbcType=INTEGER}, 
+      #{number,jdbcType=INTEGER}, #{addTs,jdbcType=TIMESTAMP}, #{removeTs,jdbcType=TIMESTAMP}, 
+      #{commitTs,jdbcType=TIMESTAMP})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="junrui.model.Order">
+    update order
+    set user_id = #{userId,jdbcType=INTEGER},
+      publ_id = #{publId,jdbcType=INTEGER},
+      number = #{number,jdbcType=INTEGER},
+      add_ts = #{addTs,jdbcType=TIMESTAMP},
+      remove_ts = #{removeTs,jdbcType=TIMESTAMP},
+      commit_ts = #{commitTs,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, user_id, publ_id, number, add_ts, remove_ts, commit_ts
+    from order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, user_id, publ_id, number, add_ts, remove_ts, commit_ts
+    from order
+  </select>
+</mapper>

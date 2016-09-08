@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="junrui.mapper.PublicationMapper">
+  <resultMap id="BaseResultMap" type="junrui.model.Publication">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="type_id" jdbcType="INTEGER" property="typeId" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="venue" jdbcType="VARCHAR" property="venue" />
+    <result column="year" jdbcType="VARCHAR" property="year" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="removed" jdbcType="TINYINT" property="removed" />
+    <result column="image_path" jdbcType="LONGVARCHAR" property="imagePath" />
+    <result column="description" jdbcType="LONGVARCHAR" property="description" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from publication
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="junrui.model.Publication" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    insert into publication (id, type_id, title, 
+      venue, year, price, 
+      removed, image_path, description
+      )
+    values (#{id,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
+      #{venue,jdbcType=VARCHAR}, #{year,jdbcType=VARCHAR}, #{price,jdbcType=DECIMAL}, 
+      #{removed,jdbcType=TINYINT}, #{imagePath,jdbcType=LONGVARCHAR}, #{description,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="junrui.model.Publication">
+    update publication
+    set type_id = #{typeId,jdbcType=INTEGER},
+      title = #{title,jdbcType=VARCHAR},
+      venue = #{venue,jdbcType=VARCHAR},
+      year = #{year,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      removed = #{removed,jdbcType=TINYINT},
+      image_path = #{imagePath,jdbcType=LONGVARCHAR},
+      description = #{description,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, type_id, title, venue, year, price, removed, image_path, description
+    from publication
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, type_id, title, venue, year, price, removed, image_path, description
+    from publication
+  </select>
+</mapper>

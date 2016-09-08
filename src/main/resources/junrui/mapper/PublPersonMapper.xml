@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="junrui.mapper.PublPersonMapper">
+  <resultMap id="BaseResultMap" type="junrui.model.PublPerson">
+    <result column="publ_id" jdbcType="INTEGER" property="publId" />
+    <result column="person_id" jdbcType="INTEGER" property="personId" />
+  </resultMap>
+  <insert id="insert" parameterType="junrui.model.PublPerson">
+    insert into publ_person (publ_id, person_id)
+    values (#{publId,jdbcType=INTEGER}, #{personId,jdbcType=INTEGER})
+  </insert>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select publ_id, person_id
+    from publ_person
+  </select>
+</mapper>

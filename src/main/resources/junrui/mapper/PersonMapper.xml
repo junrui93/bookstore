@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="junrui.mapper.PersonMapper">
+  <resultMap id="BaseResultMap" type="junrui.model.Person">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="name" jdbcType="LONGVARCHAR" property="name" />
+    <result column="aux" jdbcType="LONGVARCHAR" property="aux" />
+    <result column="bibtex" jdbcType="LONGVARCHAR" property="bibtex" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from person
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="junrui.model.Person" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    insert into person (id, type, name, 
+      aux, bibtex)
+    values (#{id,jdbcType=INTEGER}, #{type,jdbcType=TINYINT}, #{name,jdbcType=LONGVARCHAR}, 
+      #{aux,jdbcType=LONGVARCHAR}, #{bibtex,jdbcType=LONGVARCHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="junrui.model.Person">
+    update person
+    set type = #{type,jdbcType=TINYINT},
+      name = #{name,jdbcType=LONGVARCHAR},
+      aux = #{aux,jdbcType=LONGVARCHAR},
+      bibtex = #{bibtex,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, type, name, aux, bibtex
+    from person
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, type, name, aux, bibtex
+    from person
+  </select>
+</mapper>
