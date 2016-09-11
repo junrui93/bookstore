@@ -2,6 +2,7 @@ package junrui.mapper;
 
 import java.util.List;
 import junrui.model.User;
+import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {
     int deleteByPrimaryKey(Integer id);
@@ -13,4 +14,12 @@ public interface UserMapper {
     List<User> selectAll();
 
     int updateByPrimaryKey(User record);
+
+    User selectByUsername(String username);
+
+    List<User> selectByType(int type);
+
+    int updateBannedById(
+            @Param("userId") int userId,
+            @Param("banned") boolean banned);
 }

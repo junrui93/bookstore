@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="junrui.mapper.VerificationMapper">
+  <resultMap id="BaseResultMap" type="junrui.model.Verification">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from verification
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="junrui.model.Verification">
+    insert into verification (id, user_id, code
+      )
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{code,jdbcType=VARCHAR}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="junrui.model.Verification">
+    update verification
+    set user_id = #{userId,jdbcType=INTEGER},
+      code = #{code,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, user_id, code
+    from verification
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, user_id, code
+    from verification
+  </select>
+  <select id="selectByUserIdAndCode" resultType="Verification">
+    select id, user_id, code
+    from verification
+    where user_id = #{userId}
+    and code = #{code}
+  </select>
+</mapper>

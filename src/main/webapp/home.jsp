@@ -16,7 +16,7 @@
 <body>
 <div class="container">
 
-  <c:set var="cp" value="1" scope="request" />
+  <c:set var="pageName" value="home" scope="request" />
   <%@ include file="nav.jsp" %>
 
   <c:choose>
@@ -36,7 +36,7 @@
     </div>
   </div>
   </c:when>
-  
+
   <c:otherwise>
   <div id="advancedSearch">
     <h2>Search</h2>
@@ -84,7 +84,7 @@
   </div>
   </c:otherwise>
   </c:choose>
-  
+
   <div class="row">
     <div class="col-md-12">
       <h2>Random 10</h2>
@@ -93,15 +93,28 @@
   <div class="row">
     <div class="col-md-12">
       <ul class="list-group">
-        <c:forEach var="lit" items="${literature}">
+        <c:forEach var="publ" items="${publications}">
           <li class="list-group-item">
-            <p>
-            <span class="label label-default">${lit.type}</span>
-            <c:forEach var="author" items="${lit.attr.author}" varStatus="status">
-              <span class="author">${author}</span>${status.last ? ':' : ','}
-            </c:forEach>
-            </p>
-            <a href="search?action=info&id=${lit.id}"><span class="title">${lit.attr.title[0]}</span></a>
+            <div class="row">
+              <div class="col-md-2">
+                <img src="${publ.imagePath == null ? 'static/default.jpg' : publ.imagePath}" class="center-block" style="height:160px; max-width:100%"/>
+              </div>
+              <div class="col-md-10">
+                <p>
+                  <span class="label label-default">${publ.type}</span>
+                  <a href="info?id=${publ.id}" target="_blank"><span class="title">${publ.title}</span></a>
+                </p>
+                <p class="author text-muted">
+                  <c:forEach var="author" items="${publ.authors}" varStatus="status">
+                    <span class="author">${author.name}</span>${status.last ? '' : ','}
+                  </c:forEach>
+                </p>
+                <p class="price text-danger strong"><strong>$${publ.price}</strong></p>
+                <c:if test="${user != null && user.type == 0}">
+                  <a class="btn btn-default add-cart" publicationId="${publ.id}">Add to cart</a>
+                </c:if>
+              </div>
+            </div>
           </li>
         </c:forEach>
       </ul>

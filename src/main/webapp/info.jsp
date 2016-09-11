@@ -49,7 +49,7 @@
       </tr>
       <tr>
         <td>image</td>
-        <td><img src="${publ.imagePath == null ? 'static/default.jpg' : imagePath}" style="height:360px; max-width:100%"/></td>
+        <td><img src="${publ.imagePath == null ? 'static/default.jpg' : publ.imagePath}" style="height:360px; max-width:100%"/></td>
       </tr>
       <tr>
         <td>description</td>
@@ -58,7 +58,23 @@
     </tbody>
   </table>
 
-  <button class="btn btn-default">Add to cart</button><br><br>
+  <c:if test="${param.view != 'admin'}">
+    <c:if test="${user != null && user.type == 0}">
+      <button class="btn btn-default add-cart" publicationId="${publ.id}">Add to cart</button>
+    </c:if>
+    <c:if test="${user != null && user.type == 1 && user.id == publ.sellerId}">
+      <c:choose>
+        <c:when test="${publ.removed == false}">
+          <a class="btn btn-default remove" publicationId="${publ.id}">Remove</a>
+        </c:when>
+        <c:otherwise>
+          <a class="btn btn-default restore" publicationId="${publ.id}">Restore</a>
+        </c:otherwise>
+      </c:choose>
+    </c:if>
+  </c:if>
+
+  <br>
 
   <div class="panel panel-default" hidden>
     <div class="panel-heading"><h3 class="panel-title">Analytics</h3></div>
@@ -68,5 +84,24 @@
     </div>
   </div>
 </div>
+
+<script>
+$(function() {
+    $('.add-cart').click(function() {
+        var publicationId = $(this).attr('publicationId');
+        $.post("/cart/add?id=" + publicationId, function() {
+            location.reload();
+        });
+    });
+
+    $('a.remove, a.restore').click(function(e) {
+        e.preventDefault();
+        var publicationId = $(this).attr('publicationId');
+        $.post("/seller/toggleremoved?id=" + publicationId, function() {
+            location.reload();
+        });
+    });
+});
+</script>
 </body>
 </html>

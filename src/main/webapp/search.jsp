@@ -6,7 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Result - Digital Library</title>
+<title>Search Result - Digital Library</title>
 <%@ include file="style.html" %>
 </head>
 <body>
@@ -31,7 +31,7 @@
       <li class="list-group-item">
         <div class="row">
           <div class="col-md-2">
-            <img src="${publ.imagePath == null ? 'static/default.jpg' : imagePath}" class="center-block" style="height:160px; max-width:100%"/>
+            <img src="${publ.imagePath == null ? 'static/default.jpg' : publ.imagePath}" class="center-block" style="height:160px; max-width:100%"/>
           </div>
           <div class="col-md-10">
             <p>
@@ -44,7 +44,9 @@
               </c:forEach>
             </p>
             <p class="price text-danger strong"><strong>$${publ.price}</strong></p>
-            <button class="btn btn-default">Add to cart</button>
+            <c:if test="${user != null && user.type == 0}">
+              <a class="btn btn-default add-cart" publicationId="${publ.id}">Add to cart</a>
+            </c:if>
           </div>
         </div>
       </li>
@@ -88,37 +90,45 @@
         </c:forEach>
       </c:otherwise>
     </c:choose>
-    <input name="action" value="result" />
     <input name="page" value="${page}" />
   </form>
 </div>
 
 <script type="text/javascript">
-$("ul.pagination a").click(function(e) {
-    e.preventDefault();
-    $("#condForm input[name='page']").val($(this).attr("href"));
-    $("#condForm").submit();
-});
+$(function() {
+    $("ul.pagination a").click(function(e) {
+        e.preventDefault();
+        $("#condForm input[name='page']").val($(this).attr("href"));
+        $("#condForm").submit();
+    });
 
-$("#checkall").click(function(e) {
-	e.preventDefault();
-    $("input[type='checkbox']").prop("checked", true);
-});
+    $("#checkall").click(function(e) {
+        e.preventDefault();
+        $("input[type='checkbox']").prop("checked", true);
+    });
 
-$("#uncheckall").click(function(e) {
-	e.preventDefault();
-    $("input[type='checkbox']").prop("checked", false);
-});
+    $("#uncheckall").click(function(e) {
+        e.preventDefault();
+        $("input[type='checkbox']").prop("checked", false);
+    });
 
-$("#addForm").submit(function(e) {
-    e.preventDefault();
-    if ($("input[type='checkbox']:checked").length > 0) {
-        $.post($(this).attr("action"), $(this).serialize(), function(data, status) {
-            if (status == "success") {
-                location.reload();
-            }
+    $("#addForm").submit(function(e) {
+        e.preventDefault();
+        if ($("input[type='checkbox']:checked").length > 0) {
+            $.post($(this).attr("action"), $(this).serialize(), function(data, status) {
+                if (status == "success") {
+                    location.reload();
+                }
+            });
+        }
+    });
+
+    $('.add-cart').click(function() {
+        var publicationId = $(this).attr('publicationId');
+        $.post("/cart/add?id=" + publicationId, function() {
+            location.reload();
         });
-    }
+    });
 });
 </script>
 </body>

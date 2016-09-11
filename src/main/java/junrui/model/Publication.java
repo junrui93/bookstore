@@ -1,13 +1,17 @@
 package junrui.model;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.URLEncoder;
 import java.util.List;
 
 public class Publication {
     private Integer id;
 
     private Integer typeId;
+
+    private Integer venueId;
 
     private String title;
 
@@ -23,12 +27,16 @@ public class Publication {
 
     private String description;
 
+    private Integer sellerId;
+
     // logic fields, doesn't exist in database
     private String type;
 
     private List<Person> authors;
 
     private List<Person> editors;
+
+    private User seller;
 
     public String getType() {
         return type;
@@ -124,5 +132,29 @@ public class Publication {
 
     public void setDescription(String description) {
         this.description = description == null ? null : description.trim();
+    }
+
+    public Integer getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(Integer sellerId) {
+        this.sellerId = sellerId;
+    }
+
+    public User getSeller() {
+        return seller;
+    }
+
+    public void setSeller(User seller) {
+        this.seller = seller;
+    }
+
+    public Integer getVenueId() {
+        return venueId;
+    }
+
+    public void setVenueId(Integer venueId) {
+        this.venueId = venueId;
     }
 }

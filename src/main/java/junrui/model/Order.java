@@ -17,6 +17,8 @@ public class Order {
 
     private Date commitTs;
 
+    private Publication publ;
+
     public Integer getId() {
         return id;
     }
@@ -71,5 +73,13 @@ public class Order {
 
     public void setCommitTs(Date commitTs) {
         this.commitTs = commitTs;
+    }
+
+    public Publication getPubl() {
+        return publ;
+    }
+
+    public void setPubl(Publication publ) {
+        this.publ = publ;
     }
 }

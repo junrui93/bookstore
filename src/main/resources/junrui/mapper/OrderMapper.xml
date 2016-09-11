@@ -10,12 +10,22 @@
     <result column="remove_ts" jdbcType="TIMESTAMP" property="removeTs" />
     <result column="commit_ts" jdbcType="TIMESTAMP" property="commitTs" />
   </resultMap>
+  <resultMap id="orderResultMap" type="Order">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="publ_id" jdbcType="INTEGER" property="publId" />
+    <result column="number" jdbcType="INTEGER" property="number" />
+    <result column="add_ts" jdbcType="TIMESTAMP" property="addTs" />
+    <result column="remove_ts" jdbcType="TIMESTAMP" property="removeTs" />
+    <result column="commit_ts" jdbcType="TIMESTAMP" property="commitTs" />
+    <association property="publ" resultMap="junrui.mapper.PublicationMapper.publResultMap" />
+  </resultMap>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from order
+    delete from `order`
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="junrui.model.Order">
-    insert into order (id, user_id, publ_id, 
+    insert into `order` (id, user_id, publ_id,
       number, add_ts, remove_ts, 
       commit_ts)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{publId,jdbcType=INTEGER}, 
@@ -23,7 +33,7 @@
       #{commitTs,jdbcType=TIMESTAMP})
   </insert>
   <update id="updateByPrimaryKey" parameterType="junrui.model.Order">
-    update order
+    update `order`
     set user_id = #{userId,jdbcType=INTEGER},
       publ_id = #{publId,jdbcType=INTEGER},
       number = #{number,jdbcType=INTEGER},
@@ -34,11 +44,72 @@
   </update>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select id, user_id, publ_id, number, add_ts, remove_ts, commit_ts
-    from order
+    from `order`
     where id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select id, user_id, publ_id, number, add_ts, remove_ts, commit_ts
-    from order
+    from `order`
   </select>
+  <select id="selectByUserAndPubl" resultType="Order">
+    select id, user_id, publ_id, number, add_ts, remove_ts, commit_ts
+    from `order`
+    where user_id = #{userId}
+    and publ_id = #{publicationId}
+    and remove_ts IS NULL
+    and commit_ts IS NULL
+  </select>
+  <update id="incrementById" parameterType="int">
+    update `order`
+    set number = number + 1
+    where id = #{id}
+  </update>
+  <update id="decrementById" parameterType="int">
+    update `order`
+    set number = number - 1
+    where id = #{id}
+  </update>
+  <select id="selectByUserId" resultMap="orderResultMap">
+    select o.id, o.user_id, o.publ_id, number, add_ts, remove_ts, commit_ts,
+           type_id, title, venue, year, price, removed, image_path, description, pt.name as type,
+           pe.id as author_id, pe.name as author_name,
+           u.id as seller_id, u.email as seller_email, u.username as seller_username
+    from `order` o
+    left join publication p on p.id = o.publ_id
+    left join publ_type pt on pt.id = p.type_id
+    left join publ_person pp on pp.publ_id = p.id
+    left join person pe on pe.id = pp.person_id
+    left join `user` u on u.id = p.seller_id
+    where user_id = #{userId}
+    <if test="adminView == false">
+      and (remove_ts IS NULL and commit_ts IS NULL)
+    </if>
+    <if test="adminView == true">
+      and (remove_ts IS NOT NULL or commit_ts IS NOT NULL)
+    </if>
+    and pe.type = 0
+  </select>
+  <select id="countByUserId" resultType="int">
+    select count(*)
+    from `order` o
+    where user_id = #{userId}
+    <if test="adminView == false">
+      and (remove_ts IS NULL and commit_ts IS NULL)
+    </if>
+    <if test="adminView == true">
+      and (remove_ts IS NOT NULL or commit_ts IS NOT NULL)
+    </if>
+  </select>
+  <update id="updateRemoveTs" parameterType="int">
+    update `order`
+    set remove_ts = now()
+    where id = #{id}
+  </update>
+  <update id="updateCommitTs" parameterType="int">
+    update `order`
+    set commit_ts = now()
+    where user_id = #{userId}
+    and remove_ts IS NULL
+    and commit_ts IS NULL
+  </update>
 </mapper>

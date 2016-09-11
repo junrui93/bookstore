@@ -11,103 +11,153 @@
 </head>
 <body>
 <div class="container">
-  <c:set var="cp" value="4" scope="request" />
+  <c:set var="cp" value="2" scope="request" />
   <%@ include file="nav.jsp" %>
 
   <h2>Shopping Cart</h2>
   
   <c:choose>
-  <c:when test="${literature.isEmpty()}">
+  <c:when test="${orders == null || orders.isEmpty()}">
   <div class="alert alert-danger" role="alert">
-    Your shopping cart is <strong>empty!</strong>
+    Your shopping cart is empty, try to add something! <a href="home">Back to home page</a>
   </div>
   </c:when>
   
   <c:otherwise>
-  <p>Page ${page} of ${size} item${size>1?'s':''} in your shopping cart</p>
-  <form id="removeForm" action="search">
+  <form id="cartForm" action="search">
   <ul class="list-group">
-    <c:forEach var="lit" items="${literature}">
-        <li class="list-group-item">
-          <div class="row">
-            <div class="col-md-1 col-sm-1 col-xs-1">
-              <div class="row">
-                <div class="col-md-9 col-md-offset-3">
-                  <input type="checkbox" name="cart" value="${lit.id}" style="margin-top:20px"/>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-11 col-sm-11 col-xs-11">
-              <p>
-                <span class="label label-default">${lit.type}</span>
-                <c:forEach var="author" items="${lit.attr.author}" varStatus="status">
-                  <span class="author">${author}</span>${status.last ? ':' : ','}
-                </c:forEach>
-              </p>
-              <a href="search?action=info&id=${lit.id}" target="_blank"><span class="title">${lit.attr.title[0]}</span></a>
-            </div>
+    <c:forEach var="order" items="${orders}">
+      <li class="list-group-item">
+        <div class="row">
+          <div class="col-md-2">
+            <img src="${order.publ.imagePath == null ? 'static/default.jpg' : imagePath}" class="center-block" style="height:160px; max-width:100%"/>
           </div>
-        </li>
-     </c:forEach>
+          <div class="col-md-10">
+            <p>
+              <span class="label label-default">${order.publ.type}</span>
+              <a href="info?id=${order.publ.id}" target="_blank"><span class="title">${order.publ.title}</span></a>
+            </p>
+            <p class="author text-muted">
+              <c:forEach var="author" items="${order.publ.authors}" varStatus="status">
+                <span class="author">${author.name}</span>${status.last ? '' : ','}
+              </c:forEach>
+            </p>
+            <p class="price text-danger strong"><strong>$${order.publ.price} x ${order.number} = $${order.number * order.publ.price}</strong></p>
+            <button class="btn btn-default cart-action" action="remove" orderId="${order.id}">Remove</button>
+            <button class="btn btn-default cart-action" action="decrement" orderId="${order.id}" ${order.number <= 1 ? 'disabled' : ''}>-</button>
+            <button class="btn btn-default cart-action" action="increment" orderId="${order.id}">+</button>
+          </div>
+        </div>
+      </li>
+    </c:forEach>
   </ul>
-  <input name="action" value="removecart" hidden="true" />
-  <button id="remove" class="btn btn-default">Remove</button>
-  <button id="checkall" class="btn btn-default">Check All</button>
-  <button id="uncheckall" class="btn btn-default">Uncheck All</button>
+  <button class="btn btn-default" style="width:20%" id="buyButton1">Buy</button>
   </form>
 
-  <nav aria-label="Page navigation">
-    <ul class="pagination">
-      <li class="${page == 1 ? 'disabled' : ''}">
-        <a href="${page>1 ? page-1 : ''}" aria-label="Previous" class="${page == 1 ? 'inactive' : ''}">
-          <span aria-hidden="true">&larr;</span>
-        </a>
-      </li>
-      <c:forEach var="p" begin="${leftpage}" end="${rightpage}">
-        <li class="${p == page ? 'active' : ''}"><a href="${p}" class="${p == page ? 'inactive' : ''}">${p}</a></li>
-      </c:forEach>
-      <li class="${page == totalpages ? 'disabled' : ''}">
-        <a href="${page<totalpages ? page+1 : totalpages}" aria-label="Next" class="${page == totalpages ? 'inactive' : ''}">
-          <span aria-hidden="true">&rarr;</span>
-        </a>
-      </li>
-    </ul>
-  </nav>
+  <div id="confirmTable" hidden>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Items</h3>
+      </div>
+          <c:set var="totalPrice" value="${0}" />
+          <table id="confirmTable" class="table table-striped">
+            <tr>
+              <th style="width:40%">title</th>
+              <th style="width:40%">authors</th>
+              <th style="width:8%">unit price</th>
+              <th style="width:4%">number</th>
+              <th style="width:8%">price</th>
+            </tr>
+            <c:forEach var="order" items="${orders}">
+            <tr>
+              <td>${order.publ.title}</td>
+              <td>
+                <c:forEach var="author" items="${order.publ.authors}" varStatus="status">
+                  ${author.name}${status.last ? '' : ','}
+                </c:forEach>
+              </td>
+              <td>$${order.publ.price}</td>
+              <td>${order.number}</td>
+              <td>$${order.number * order.publ.price}</td>
+            </tr>
+            <c:set var="totalPrice" value="${totalPrice + order.number * order.publ.price}" />
+            </c:forEach>
+            <tr>
+              <td colspan="2"></td>
+              <td colspan="2" class="info"><strong>total price<strong></td>
+              <td colspan="3" class="info">$${totalPrice}</td>
+            </tr>
+          </table>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">User Information</h3>
+      </div>
+      <div class="panel-body">
+        Username: ${user.username}<br>
+        Full Name: ${user.firstName}, ${user.lastName}
+      </div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title" style="white-space: pre-wrap">Address</h3>
+      </div>
+      <div class="panel-body">${user.address}</div>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Payment</h3>
+      </div>
+      <div class="panel-body">
+        Credit Card: ${user.creditCard}
+      </div>
+    </div>
+  <button class="btn btn-default" id="buyButton2" style="width:20%">Buy</button>
+  <button class="btn btn-default" id="cancelButton" style="width:20%">Cancel</button>
+  </div>
+    <div class="alert alert-success" role="alert" id="purchaseSuccess" hidden>
+      Purchase succeeded. Your order has been emailed to the booksellers.
+    </div>
   </c:otherwise>
   </c:choose>
-  
-  <form id="pageForm" action="search" method="get" hidden="true">
-    <input name="action" value="cart" />
-    <input name="page" value="${page}" />
-  </form>
 </div>
 
 <script type="text/javascript">
-$("ul.pagination a").click(function(e) {
-    e.preventDefault();
-    $("#pageForm input[name='page']").val($(this).attr("href"));
-    $("#pageForm").submit();
-});
+$(function() {
 
-$("#checkall").click(function(e) {
-	e.preventDefault();
-    $("input[type='checkbox']").prop("checked", true);
-});
+    $('.cart-action').click(function(e) {
+        e.preventDefault();
 
-$("#uncheckall").click(function(e) {
-	e.preventDefault();
-    $("input[type='checkbox']").prop("checked", false);
-});
-
-$("#removeForm").submit(function(e) {
-	e.preventDefault();
-    if ($("input[type='checkbox']:checked").length > 0) {
-        $.post($(this).attr("action"), $(this).serialize(), function(data, status) {
-            if (status == "success") {
-                location.reload();
-            }
+        var orderId = $(this).attr('orderId');
+        var action = $(this).attr('action');
+        $.post("/cart/" + action + "?id=" + orderId, function() {
+            location.reload();
         });
-    }
+    });
+
+    $cartForm = $('#cartForm');
+    $confirmTable = $('#confirmTable');
+
+    $('#buyButton1').click(function(e) {
+        e.preventDefault();
+        $cartForm.hide();
+        $confirmTable.show();
+    });
+
+    $('#cancelButton').click(function(e) {
+        e.preventDefault();
+        $cartForm.show();
+        $confirmTable.hide();
+    });
+
+    $('#buyButton2').click(function(e) {
+        e.preventDefault();
+        $.post("/cart/commit?id=0", function() {
+            $cartForm.hide();
+            $confirmTable.hide();
+            $('#purchaseSuccess').show();
+        });
+    });
 });
 </script>
 </body>

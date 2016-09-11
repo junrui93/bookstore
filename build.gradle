@@ -25,6 +25,9 @@ dependencies {
     compile 'org.apache.commons:commons-dbcp2:2.1.1'
     compile 'mysql:mysql-connector-java:5.1.39'
     compile 'org.dom4j:dom4j:2.0.0'
+    compile 'com.sun.jersey:jersey-core:1.19.2'
+    compile 'com.sun.jersey:jersey-client:1.19.2'
+    compile 'com.sun.jersey.contribs:jersey-multipart:1.19.2'
     testCompile 'junit:junit:4.12'
     testCompile 'org.springframework:spring-test:4.3.2.RELEASE'
 }

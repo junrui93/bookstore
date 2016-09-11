@@ -45,7 +45,7 @@
         </javaClientGenerator>
 
         <!--对应数据库表名 -->
-        <table tableName="publ_person" />
+        <table tableName="venue" />
 
     </context>
 </generatorConfiguration>

@@ -19,7 +19,7 @@
     delete from user
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="junrui.model.User">
+  <insert id="insert" parameterType="junrui.model.User" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
     insert into user (id, type, username, 
       password, email, nickname, 
       first_name, last_name, birth_year, 
@@ -33,9 +33,10 @@
   </insert>
   <update id="updateByPrimaryKey" parameterType="junrui.model.User">
     update user
-    set type = #{type,jdbcType=TINYINT},
-      username = #{username,jdbcType=VARCHAR},
+    set
+    <if test="password != null">
       password = #{password,jdbcType=VARCHAR},
+    </if>
       email = #{email,jdbcType=VARCHAR},
       nickname = #{nickname,jdbcType=VARCHAR},
       first_name = #{firstName,jdbcType=VARCHAR},
@@ -57,4 +58,22 @@
     credit_card, banned, address
     from user
   </select>
+  <select id="selectByUsername" resultType="User">
+    select id, type, username, password, email, nickname, first_name, last_name, birth_year,
+    credit_card, banned, address
+    from user
+    where username = #{username}
+    limit 1
+  </select>
+  <select id="selectByType" resultType="User">
+    select id, type, username, password, email, nickname, first_name, last_name, birth_year,
+            credit_card, banned, address
+    from user
+    where type = #{type}
+  </select>
+  <update id="updateBannedById">
+    update user
+    set banned = #{banned}
+    where id = #{userId}
+  </update>
 </mapper>
