@@ -20,8 +20,8 @@ public class PublicationMapperTest {
 
     @Test
     public void testSelect() {
-        publMapper.countByKeyword("CVPR");
-        publMapper.selectByKeyword("CVPR", 0, 10);
+        //publMapper.countByKeyword("CVPR");
+        //publMapper.selectByKeyword("CVPR", 0, 10);
         Map<String, Object> condition = new HashMap<>();
         condition.put("title", "convolutional neural network");
         List<String> types = new ArrayList<>();
