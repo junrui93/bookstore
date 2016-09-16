@@ -107,8 +107,9 @@
             <th style="width:15%">username</th>
             <th style="width:25%">email</th>
             <th style="width:15%">nickname</th>
-            <th style="width:15%">first name</th>
-            <th style="width:15%">last name</th>
+            <th style="width:10%">first name</th>
+            <th style="width:10%">last name</th>
+            <th style="width:10%">verified</th>
             <th style="width:10%">action</th>
           </tr>
           <c:forEach var="customer" items="${customers}">
@@ -119,6 +120,7 @@
               <td>${customer.nickname}</td>
               <td>${customer.firstName}</td>
               <td>${customer.lastName}</td>
+              <td>${customer.password == null ? 'false' : ''}</td>
               <td>
                 <button class="btn btn-primary togglebanned" customerId="${customer.id}">
                   ${customer.banned == true ? 'restore' : 'ban'}
