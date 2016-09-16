@@ -15,14 +15,14 @@
   <%@ include file="nav.jsp" %>
 
   <h2>Result</h2>
-  
+
   <c:choose>
   <c:when test="${maxPage == 0}">
   <div class="alert alert-danger" role="alert">
     <strong>Nothing found</strong>, try to search again! <a href="home">Back to home page</a>
   </div>
   </c:when>
-  
+
   <c:otherwise>
   <p>Page ${page} of ${resultSize} result${resultSize>1?'s':''}</p>
   <form id="addForm" action="search">
@@ -45,7 +45,7 @@
             </p>
             <p class="price text-danger strong"><strong>$${publ.price}</strong></p>
             <c:if test="${user != null && user.type == 0}">
-              <a class="btn btn-default add-cart" publicationId="${publ.id}">Add to cart</a>
+              <a class="btn btn-default add-cart" publicationId="${publ.id}" data-toggle="tooltip" title="item added">Add to cart</a>
             </c:if>
           </div>
         </div>
@@ -123,10 +123,18 @@ $(function() {
         }
     });
 
+    $('.add-cart').tooltip({
+        placement: 'right',
+        trigger: 'manual'
+    });
     $('.add-cart').click(function() {
         var publicationId = $(this).attr('publicationId');
+        var button = $(this);
         $.post("/cart/add?id=" + publicationId, function() {
-            location.reload();
+            button.tooltip('show');
+            window.setTimeout(function() {
+                button.tooltip('hide');
+            }, 1000);
         });
     });
 });

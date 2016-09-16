@@ -30,7 +30,7 @@
     <c:forEach var="order" items="${orders}">
       <c:if test="${order.commitTs != null}">
         <tr>
-          <td><a href="/info?id=${order.publ.id}&view=admin" target="_blank">${order.publ.title}</a></td>
+          <td><a href="/info?id=${order.publId}&view=admin" target="_blank">${order.publ.title}</a></td>
           <td>${order.commitTs}</td>
           <td>${order.publ.price} x ${order.number} = ${order.publ.price * order.number}</td>
           <td>${order.publ.seller.username}</td>
@@ -49,7 +49,7 @@
     <c:forEach var="order" items="${orders}">
       <c:if test="${order.removeTs != null}">
         <tr>
-          <td><a href="/info?id=${order.publ.id}&view=admin" target="_blank">${order.publ.title}</a></td>
+          <td><a href="/info?id=${order.publId}&view=admin" target="_blank">${order.publ.title}</a></td>
           <td>${order.addTs}</td>
           <td>${order.removeTs}</td>
         </tr>

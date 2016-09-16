@@ -15,14 +15,14 @@
   <%@ include file="nav.jsp" %>
 
   <h2>Shopping Cart</h2>
-  
+
   <c:choose>
   <c:when test="${orders == null || orders.isEmpty()}">
   <div class="alert alert-danger" role="alert">
     Your shopping cart is empty, try to add something! <a href="home">Back to home page</a>
   </div>
   </c:when>
-  
+
   <c:otherwise>
   <form id="cartForm" action="search">
   <ul class="list-group">
@@ -35,7 +35,7 @@
           <div class="col-md-10">
             <p>
               <span class="label label-default">${order.publ.type}</span>
-              <a href="info?id=${order.publ.id}" target="_blank"><span class="title">${order.publ.title}</span></a>
+              <a href="info?id=${order.publId}" target="_blank"><span class="title">${order.publ.title}</span></a>
             </p>
             <p class="author text-muted">
               <c:forEach var="author" items="${order.publ.authors}" varStatus="status">

@@ -111,7 +111,7 @@
                 </p>
                 <p class="price text-danger strong"><strong>$${publ.price}</strong></p>
                 <c:if test="${user != null && user.type == 0}">
-                  <a class="btn btn-default add-cart" publicationId="${publ.id}">Add to cart</a>
+                  <a class="btn btn-default add-cart" publicationId="${publ.id}" data-toggle="tooltip" title="item added">Add to cart</a>
                 </c:if>
               </div>
             </div>
@@ -122,41 +122,59 @@
   </div>
 
 <script type="text/javascript">
-/* $("a.toggle-search").click(function() {
-    $("#simpleSearch").toggle();
-    $("#advancedSearch").toggle();
-}); */
+$(function() {
+    /* $("a.toggle-search").click(function() {
+        $("#simpleSearch").toggle();
+        $("#advancedSearch").toggle();
+    }); */
 
-$("#inputYearFrom").datepicker({
-    format: "yyyy",
-    minViewMode: 2,
-    autoclose: true
-}).on('changeDate', function(e){
-    var startDate =  $("#inputYearFrom").val();
-    var inputYearTo = $('#inputYearTo');
-    inputYearTo.datepicker('setStartDate', startDate);
-    if (inputYearTo.val() && parseInt(inputYearTo.val()) < parseInt(startDate)) {
-    	inputYearTo.val(startDate);
-    }
-});
+    $("#inputYearFrom").datepicker({
+        format: "yyyy",
+        minViewMode: 2,
+        autoclose: true
+    }).on('changeDate', function(e){
+        var startDate =  $("#inputYearFrom").val();
+        var inputYearTo = $('#inputYearTo');
+        inputYearTo.datepicker('setStartDate', startDate);
+        if (inputYearTo.val() && parseInt(inputYearTo.val()) < parseInt(startDate)) {
+        	inputYearTo.val(startDate);
+        }
+    });
 
-$("#inputYearTo").datepicker({
-    format: "yyyy",
-    minViewMode: 2,
-    autoclose: true
-});
+    $("#inputYearTo").datepicker({
+        format: "yyyy",
+        minViewMode: 2,
+        autoclose: true
+    });
 
-$(".js-example-basic-multiple").select2({
-    width: "100%"
-});
+    $(".js-example-basic-multiple").select2({
+        width: "100%"
+    });
 
-$("#simpleSearchForm").submit(function(e) {
-    var inputKeyword = $(this).find("input[name='keyword']");
-    if (inputKeyword.val().startsWith("type:")) {
-        var type = inputKeyword.val().substr(5).trim();
-        location.href = "search?action=result&type=" + type;
-        e.preventDefault();
-    }
+    $("#simpleSearchForm").submit(function(e) {
+        var inputKeyword = $(this).find("input[name='keyword']");
+        if (inputKeyword.val().startsWith("type:")) {
+            var type = inputKeyword.val().substr(5).trim();
+            location.href = "search?action=result&type=" + type;
+            e.preventDefault();
+        }
+    });
+
+    $('.add-cart').tooltip({
+        placement: 'right',
+        trigger: 'manual'
+    });
+    $('.add-cart').click(function() {
+        var publicationId = $(this).attr('publicationId');
+        var button = $(this);
+        $.post("/cart/add?id=" + publicationId, function() {
+            button.tooltip('show');
+            window.setTimeout(function() {
+                button.tooltip('hide');
+            }, 1000);
+        });
+    });
+
 });
 </script>
 </div>
