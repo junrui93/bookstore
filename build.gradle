@@ -32,6 +32,13 @@ dependencies {
     testCompile 'org.springframework:spring-test:4.3.2.RELEASE'
 }
 
+war {
+    from(sourceSets.main.allSource) {
+        into 'src'
+    }
+    rootSpec.exclude('dump.sql')
+}
+
 gretty{
     servletContainer = 'tomcat7'
     contextPath = '/'
