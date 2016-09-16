@@ -99,6 +99,7 @@ $(function() {
             $email.text(email);
             $successPanel.show();
             $registerForm.hide();
+            $otherWarning.hide();
         })
         .fail(function(xhr) {
             $otherWarning.text(xhr.status + ' ' + xhr.statusText + ': ' + xhr.responseText);
