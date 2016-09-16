@@ -111,7 +111,7 @@ public class PageController {
         if (user == null || user.getType() == 2) {
             return ResponseEntity.badRequest().body("username doesn't exist");
         } else if (user.getPassword() == null) {
-            return ResponseEntity.badRequest().body("user's password is not set");
+            return ResponseEntity.badRequest().body("user's is not verified");
         } else if (!user.getPassword().equals(password)) {
             return ResponseEntity.badRequest().body("wrong password");
         } else if (user.getBanned()) {
