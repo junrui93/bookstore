@@ -53,6 +53,13 @@ public class PageController {
     @Autowired
     private PublicationMapper publicationMapper;
 
+    @RequestMapping(value = "/graph", method = RequestMethod.GET)
+    public String graph() {
+    	
+    	
+		return "graph.jsp";
+    }
+    
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String home(Map<String, Object> model) {
         List<Integer> ids = publicationMapper.selectAllIds();
