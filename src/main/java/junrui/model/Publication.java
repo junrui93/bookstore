@@ -37,6 +37,12 @@ public class Publication {
     private List<Person> editors;
 
     private User seller;
+    
+    private PublType publTypeName;
+    
+    public String getPublTypeName() { 	
+    	return publTypeName.getName();
+    }
 
     public String getType() {
         return type;
@@ -156,5 +162,9 @@ public class Publication {
 
     public void setVenueId(Integer venueId) {
         this.venueId = venueId;
+    }
+    //YH Testing
+    public String toString(){
+    	return this.getId()+" | "+this.getTypeId()+" | "+this.getTitle()+" | "+getPublTypeName();
     }
 }

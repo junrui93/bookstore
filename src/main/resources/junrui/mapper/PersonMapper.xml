@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="junrui.model.Person">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="type" jdbcType="TINYINT" property="type" />
-    <result column="name" jdbcType="LONGVARCHAR" property="name" />
+    <result column="name" jdbcType="LONGVARCHAR" property="name" ></result>
     <result column="aux" jdbcType="LONGVARCHAR" property="aux" />
     <result column="bibtex" jdbcType="LONGVARCHAR" property="bibtex" />
   </resultMap>

@@ -3,6 +3,7 @@ package junrui.web;
 import junrui.logic.OrderLogic;
 import junrui.logic.SearchLogic;
 import junrui.logic.UserLogic;
+import junrui.mapper.EntityMapper;
 import junrui.mapper.OrderMapper;
 import junrui.mapper.PublicationMapper;
 import junrui.mapper.UserMapper;
@@ -52,10 +53,14 @@ public class PageController {
 
     @Autowired
     private PublicationMapper publicationMapper;
+    
+    @Autowired
+    private EntityMapper entityMapper;
 
     @RequestMapping(value = "/graph", method = RequestMethod.GET)
     public String graph() {
-    	
+    	List<Publication> publications = entityMapper.selectedAttributes();
+    	//System.out.println(publications.size());
     	
 		return "graph.jsp";
     }

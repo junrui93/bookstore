@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="junrui.mapper.EntityMapper">
+	<select id="selectedAttributes" resultType="Publication">
+		select publ.id, publ.title, pt.name
+		from publication publ
+		join publ_type pt on pt.id = publ.type_id
+	</select>
+	<insert id="insert" parameterType="junrui.model.Entity">
+		insert into entity_store (subject, predicate, object)
+		values
+		(#{publEntityId,jdbcType=VARCHAR}, #{publEntityAttribute,jdbcType=VARCHAR}, #{publAttributeValue,jdbcType=VARCHAR})
+	</insert>
+
+</mapper>
