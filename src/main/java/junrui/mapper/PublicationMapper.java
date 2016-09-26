@@ -52,4 +52,6 @@ public interface PublicationMapper {
     List<Integer> selectAllIds();
 
     List<Publication> selectByIds(Collection<Integer> ids);
+
+    Publication selectExample();
 }

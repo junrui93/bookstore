@@ -220,4 +220,10 @@
         </foreach>
     </where>
   </select>
+  <select id="selectExample" resultType="Publication">
+    select p.id, title, t.name as type
+    from publication p
+    left join publ_type t on t.id = p.type_id
+    limit 1
+  </select>
 </mapper>
