@@ -2,14 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="junrui.mapper.EntityMapper">
 	<select id="selectedAttributes" resultType="Publication">
-		select publ.id, publ.title, pt.name
+		select publ.id, title, pt.name as type
 		from publication publ
 		join publ_type pt on pt.id = publ.type_id
+		limit 1
 	</select>
-	<insert id="insert" parameterType="junrui.model.Entity">
+	<select id="selectAllPersons" resultType="Person">
+		select id, type, name
+		from person
+		limit 1
+	</select>
+	<select id="selectVenues" resultType="Venue">
+		select id, name
+		from venue
+		limit 1
+	</select>
+	
+	<insert id="insertPub" parameterType="junrui.model.Entity">
 		insert into entity_store (subject, predicate, object)
 		values
-		(#{publEntityId,jdbcType=VARCHAR}, #{publEntityAttribute,jdbcType=VARCHAR}, #{publAttributeValue,jdbcType=VARCHAR})
+		(#{entityId,jdbcType=VARCHAR}, #{entityAttribute,jdbcType=VARCHAR}, #{attributeValue,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertPerson" parameterType="junrui.model.Entity">
+		insert into entity_store (subject, predicate, object)
+		values
+		(#{personEntityId,jdbcType=VARCHAR}, #{entityAttribute,jdbcType=VARCHAR}, #{personAttrValueType,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertVenue" parameterType="junrui.model.Entity">
+		insert into entity_store (subject, predicate, object)
+		values
+		(#{venueEntityId,jdbcType=VARCHAR}, #{entityAttribute,jdbcType=VARCHAR}, #{attributeValue,jdbcType=VARCHAR})
 	</insert>
 
 </mapper>

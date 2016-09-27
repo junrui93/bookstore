@@ -1,6 +1,5 @@
 package junrui.mapper;
 
-import junrui.model.Publication;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -10,7 +9,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import junrui.model.Entity;
+import junrui.model.Person;
 import junrui.model.Publication;
+import junrui.model.Venue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,32 +42,33 @@ public class PublicationMapperTest {
         //types.add("article");
     	
         //condition.put("type", types); 	
-        //publMapper.selectByCondition(condition, 0, 10);
-    	
-    	List<Publication> publications = entityMapper.selectedAttributes();
-    	
-    	//List<Publication> tempPubl = new LinkedList<>();
-    	//tempPubl.addAll(publications);
-    	
-    	//for(Publication pub : publications) {
-    	
-    	
-    		Entity entity = new Entity();	
-    		entity.setPublEntityId(publications.get(0).getId());
-    		//entity.setPublEntityAttribute("Title");
-    		//entity.setPublAttributeValue(pub.getTitle());
-    		//entity.setPublEntityAttribute("Type");
-    		//entity.setPublAttributeValue(publications.get(0).getPublTypeName());
-    		
-    		//entityMapper.insert(entity);
-    	//}
-    	
-    	System.out.println(publications.toString());
+        //publMapper.selectByCondition(condition, 0, 10);   	
     }
 
-    @Test
+    /*@Test
     public void testExample() {
-        Publication publication = publMapper.selectExample();
-        logger.debug(publication.getType());
-    }
+    	List<Venue> venue = entityMapper.selectVenues(); 	
+        logger.debug(persons.get(0).getType().toString());
+        
+    	for(Venue v : venue)
+    	{
+    		Entity entity = new Entity();	
+    		entity.setVenueEntityId(v.getId());  			
+    		entity.setEntityAttribute("Type");
+    		entity.setAttributeValue("Venue");
+    		entityMapper.insertVenue(entity);
+    		
+    		Entity entity2 = new Entity();	
+    		entity2.setVenueEntityId(v.getId());  	
+    		entity2.setEntityAttribute("Class");
+    		entity2.setAttributeValue("entityNode");  		
+    		entityMapper.insertVenue(entity2);
+    		
+    		Entity entity3 = new Entity();	
+    		entity3.setVenueEntityId(v.getId());  	
+    		entity3.setEntityAttribute("Name");
+    		entity3.setAttributeValue(v.getName());  		
+    		entityMapper.insertVenue(entity3);
+    	}
+    }*/
 }

@@ -7,9 +7,13 @@ import junrui.mapper.EntityMapper;
 import junrui.mapper.OrderMapper;
 import junrui.mapper.PublicationMapper;
 import junrui.mapper.UserMapper;
+import junrui.model.Entity;
 import junrui.model.Order;
+import junrui.model.Person;
 import junrui.model.Publication;
 import junrui.model.User;
+import junrui.model.Venue;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +64,70 @@ public class PageController {
     @RequestMapping(value = "/graph", method = RequestMethod.GET)
     public String graph() {
     	List<Publication> publications = entityMapper.selectedAttributes();
-    	//System.out.println(publications.size());
+    	for(Publication pub : publications) 
+    	{  	
+    		Entity entity = new Entity();	
+    		entity.setEntityId(pub.getId());  			
+    		entity.setEntityAttribute("Type");
+    		entity.setAttributeValue(pub.getType());
+    		entityMapper.insertPub(entity);
+    		
+    		Entity entity2 = new Entity();	
+    		entity2.setEntityId(pub.getId());  	
+    		entity2.setEntityAttribute("Class");
+    		entity2.setAttributeValue("entityNode");  		
+    		entityMapper.insertPub(entity2);
+    		
+    		Entity entity3 = new Entity();	
+    		entity3.setEntityId(pub.getId());  	
+    		entity3.setEntityAttribute("Title");
+    		entity3.setAttributeValue(pub.getTitle());  		
+    		entityMapper.insertPub(entity3);	
+    	}
+    	
+    	List<Person> persons = entityMapper.selectAllPersons();   
+    	for(Person person : persons)
+    	{
+    		Entity entity = new Entity();	
+    		entity.setVenueEntityId(person.getId());  			
+    		entity.setEntityAttribute("Type");
+    		entity.setPersonAttrValueType("Venue");
+    		entityMapper.insertPerson(entity);
+    		
+    		Entity entity2 = new Entity();	
+    		entity2.setVenueEntityId(person.getId());  	
+    		entity2.setEntityAttribute("Class");
+    		entity2.setPersonAttrValueType("entityNode");  		
+    		entityMapper.insertPerson(entity2);
+    		
+    		Entity entity3 = new Entity();	
+    		entity3.setVenueEntityId(person.getId());  	
+    		entity3.setEntityAttribute("Name");
+    		entity3.setPersonAttrValueType(person.getName());  		
+    		entityMapper.insertPerson(entity3);
+    	}
+    	
+    	List<Venue> venue = entityMapper.selectVenues();
+    	for(Venue v : venue)
+    	{
+    		Entity entity = new Entity();	
+    		entity.setVenueEntityId(v.getId());  			
+    		entity.setEntityAttribute("Type");
+    		entity.setAttributeValue("Venue");
+    		entityMapper.insertVenue(entity);
+    		
+    		Entity entity2 = new Entity();	
+    		entity2.setVenueEntityId(v.getId());  	
+    		entity2.setEntityAttribute("Class");
+    		entity2.setAttributeValue("entityNode");  		
+    		entityMapper.insertVenue(entity2);
+    		
+    		Entity entity3 = new Entity();	
+    		entity3.setVenueEntityId(v.getId());  	
+    		entity3.setEntityAttribute("Name");
+    		entity3.setAttributeValue(v.getName());  		
+    		entityMapper.insertVenue(entity3);
+    	}
     	
 		return "graph.jsp";
     }
