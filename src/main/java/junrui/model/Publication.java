@@ -39,8 +39,8 @@ public class Publication {
     private User seller;
     
     private PublType publTypeName;
-    
-    public String getPublTypeName() { 	
+
+	public String getPublTypeName() { 	
     	return publTypeName.getName();
     }
 

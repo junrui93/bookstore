@@ -2,8 +2,13 @@ package junrui.model;
 
 public class PublPerson {
     private Integer publId;
-
     private Integer personId;
+    
+    private int author;
+    
+	public int getAuthor() {
+		return author;
+	}
 
     public Integer getPublId() {
         return publId;

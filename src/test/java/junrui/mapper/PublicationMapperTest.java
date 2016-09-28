@@ -9,13 +9,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import junrui.model.Entity;
-import junrui.model.Person;
+import junrui.model.Graph;
+import junrui.model.PublPerson;
 import junrui.model.Publication;
 import junrui.model.Venue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.List;
 
@@ -45,30 +45,40 @@ public class PublicationMapperTest {
         //publMapper.selectByCondition(condition, 0, 10);   	
     }
 
-    /*@Test
+    @Test
     public void testExample() {
-    	List<Venue> venue = entityMapper.selectVenues(); 	
-        logger.debug(persons.get(0).getType().toString());
-        
-    	for(Venue v : venue)
+    	List<PublPerson> links = entityMapper.selectLink(); 	
+        //logger.debug(links.get(0).getPersonId()+" | "+links.get(0).getAuthor());
+        //logger.debug(links.get(1).getPersonId()+" | "+links.get(1).getAuthor());
+    	
+    	Graph g = new Graph();
+    	
+    	for(PublPerson pp : links)
     	{
-    		Entity entity = new Entity();	
-    		entity.setVenueEntityId(v.getId());  			
-    		entity.setEntityAttribute("Type");
-    		entity.setAttributeValue("Venue");
-    		entityMapper.insertVenue(entity);
+    		Entity entry1 = new Entity();	
+    		entry1.setEdgeEntityId(pp.getPersonId());  			
+    		entry1.setEntityAttribute("Type");
+    		entry1.setAttributeValue("directedLink");
+    		entityMapper.insertEdge(entry1);
     		
-    		Entity entity2 = new Entity();	
-    		entity2.setVenueEntityId(v.getId());  	
-    		entity2.setEntityAttribute("Class");
-    		entity2.setAttributeValue("entityNode");  		
-    		entityMapper.insertVenue(entity2);
+    		Entity entry2 = new Entity();	
+    		entry2.setEdgeEntityId(pp.getPersonId());  	
+    		entry2.setEntityAttribute("Class");
+    		entry2.setAttributeValue("Edge");  		
+    		entityMapper.insertEdge(entry2);
     		
-    		Entity entity3 = new Entity();	
-    		entity3.setVenueEntityId(v.getId());  	
-    		entity3.setEntityAttribute("Name");
-    		entity3.setAttributeValue(v.getName());  		
-    		entityMapper.insertVenue(entity3);
+    		Entity entry3 = new Entity();	
+    		entry3.setEdgeEntityId(pp.getPersonId());  	
+    		entry3.setEntityAttribute("Label");
+    		entry3.setAttributeValue("authoredBy");  		
+    		entityMapper.insertEdge(entry3);
+    		
+    		g.setNodeFrom("P"+pp.getPublId()); 		
+    		g.setNodeEdge("E"+pp.getPersonId());		
+    		g.setNodeTo("A"+pp.getAuthor());
+    		entityMapper.insertGraph(g);
+    		
     	}
-    }*/
+    	
+    }
 }

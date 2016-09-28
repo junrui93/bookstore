@@ -9,6 +9,7 @@ public class Entity {
 	private String personAttrValueType;
 	
 	private String venueEntityId;
+	private String edgeEntityId;
 	
 	public String getEntityId() {
 		return entityId;
@@ -53,6 +54,12 @@ public class Entity {
 	}
 	public void setVenueEntityId(int venueEntityId) {
 		this.venueEntityId = "V"+venueEntityId;
+	}
+	public String getEdgeEntityId() {
+		return edgeEntityId;
+	}
+	public void setEdgeEntityId(int edgeEntityId) {
+		this.edgeEntityId = "E"+edgeEntityId;
 	}
 	
 	

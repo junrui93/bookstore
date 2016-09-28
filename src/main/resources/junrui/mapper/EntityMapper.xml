@@ -17,6 +17,14 @@
 		from venue
 		limit 1
 	</select>
+	<select id="selectLink" resultType="PublPerson">
+		select pub.id as publId, pp.person_id as personId, p.id as author
+		from publication pub 
+		join publ_person pp on pp.publ_id = pub.id
+		join person p on p.id = pp.person_id
+		limit 1
+	</select>
+	
 	
 	<insert id="insertPub" parameterType="junrui.model.Entity">
 		insert into entity_store (subject, predicate, object)
@@ -33,5 +41,17 @@
 		values
 		(#{venueEntityId,jdbcType=VARCHAR}, #{entityAttribute,jdbcType=VARCHAR}, #{attributeValue,jdbcType=VARCHAR})
 	</insert>
+	<insert id="insertEdge" parameterType="junrui.model.Entity">
+		insert into entity_store (subject, predicate, object)
+		values
+		(#{edgeEntityId,jdbcType=VARCHAR}, #{entityAttribute,jdbcType=VARCHAR}, #{attributeValue,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertGraph" parameterType="junrui.model.Graph">
+		insert into graph_store (subject, predicate, object)
+		values
+		(#{nodeFrom,jdbcType=VARCHAR}, #{nodeEdge,jdbcType=VARCHAR}, #{nodeTo,jdbcType=VARCHAR})
+	</insert>
 
+
+	
 </mapper>
