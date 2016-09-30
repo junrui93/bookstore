@@ -16,6 +16,7 @@ import junrui.model.Venue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.List;
 
@@ -46,39 +47,18 @@ public class PublicationMapperTest {
     }
 
     @Test
-    public void testExample() {
-    	List<PublPerson> links = entityMapper.selectLink(); 	
-        //logger.debug(links.get(0).getPersonId()+" | "+links.get(0).getAuthor());
-        //logger.debug(links.get(1).getPersonId()+" | "+links.get(1).getAuthor());
-    	
-    	Graph g = new Graph();
-    	
-    	for(PublPerson pp : links)
-    	{
-    		Entity entry1 = new Entity();	
-    		entry1.setEdgeEntityId(pp.getPersonId());  			
-    		entry1.setEntityAttribute("Type");
-    		entry1.setAttributeValue("directedLink");
-    		entityMapper.insertEdge(entry1);
-    		
-    		Entity entry2 = new Entity();	
-    		entry2.setEdgeEntityId(pp.getPersonId());  	
-    		entry2.setEntityAttribute("Class");
-    		entry2.setAttributeValue("Edge");  		
-    		entityMapper.insertEdge(entry2);
-    		
-    		Entity entry3 = new Entity();	
-    		entry3.setEdgeEntityId(pp.getPersonId());  	
-    		entry3.setEntityAttribute("Label");
-    		entry3.setAttributeValue("authoredBy");  		
-    		entityMapper.insertEdge(entry3);
-    		
-    		g.setNodeFrom("P"+pp.getPublId()); 		
-    		g.setNodeEdge("E"+pp.getPersonId());		
-    		g.setNodeTo("A"+pp.getAuthor());
+    public void testExample() 
+    {   		
+    	List<Graph> graphStore = entityMapper.selectAll();
+    	entityMapper.deleteAll();
+    	for(Graph g : graphStore)
+    	{ 		
+    		logger.debug(g.getNodeFrom()+"-"+g.getNodeEdge()+"-"+g.getNodeTo());
     		entityMapper.insertGraph(g);
-    		
     	}
-    	
     }
+    
+    
+    
+    
 }

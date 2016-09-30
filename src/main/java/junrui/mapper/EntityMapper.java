@@ -15,6 +15,9 @@ public interface EntityMapper {
 	List<Venue> selectVenues();
 	
 	List<PublPerson> selectLink();
+	Publication selectByPubId(int id);
+	List<Graph> selectAll();
+	int deleteAll();
 	
 	int insertPub(Entity entry);
 	int insertPerson(Entity entry);

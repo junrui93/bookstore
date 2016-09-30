@@ -62,6 +62,8 @@ public class Entity {
 		this.edgeEntityId = "E"+edgeEntityId;
 	}
 	
-	
+	public String toString(){
+		return edgeEntityId+"|"+entityAttribute+"|"+attributeValue;
+	}
 
 }

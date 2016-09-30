@@ -4,7 +4,7 @@
 	<select id="selectedAttributes" resultType="Publication">
 		select publ.id, title, pt.name as type
 		from publication publ
-		join publ_type pt on pt.id = publ.type_id
+		left join publ_type pt on pt.id = publ.type_id
 		limit 1
 	</select>
 	<select id="selectAllPersons" resultType="Person">
@@ -19,12 +19,25 @@
 	</select>
 	<select id="selectLink" resultType="PublPerson">
 		select pub.id as publId, pp.person_id as personId, p.id as author
-		from publication pub 
-		join publ_person pp on pp.publ_id = pub.id
-		join person p on p.id = pp.person_id
-		limit 1
+		from publ_person pp  
+		left join publication pub on pub.id = pp.publ_id
+		left join person p on p.id = pp.person_id
+		limit 22
+	</select>
+	<select id="selectByPubId" resultType="Publication">
+		select id, venue_id as venueId, venue
+		from publication
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+	<select id="selectAll" resultType="Graph">
+		select subject as nodeFrom, predicate as nodeEdge, object as nodeTo
+		from graph_store
+		order by subject
 	</select>
 	
+	<delete id="deleteAll" parameterType="java.lang.Integer">
+    	delete from graph_store
+ 	</delete>
 	
 	<insert id="insertPub" parameterType="junrui.model.Entity">
 		insert into entity_store (subject, predicate, object)
