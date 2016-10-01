@@ -1,5 +1,7 @@
 package junrui.web;
 
+import junrui.data.GraphResult;
+import junrui.logic.GraphSearchLogic;
 import junrui.logic.OrderLogic;
 import junrui.logic.SearchLogic;
 import junrui.logic.UserLogic;
@@ -53,11 +55,18 @@ public class PageController {
     @Autowired
     private PublicationMapper publicationMapper;
 
+    @Autowired
+    private GraphSearchLogic graphSearchLogic;
+
     @RequestMapping(value = "/graph", method = RequestMethod.GET)
     public String graph() {
-    	
-    	
 		return "graph.jsp";
+    }
+
+    @RequestMapping(value = "/graph", method = RequestMethod.POST)
+    @ResponseBody
+    public GraphResult graphPost(String keyword, int type) {
+        return graphSearchLogic.search(keyword, type);
     }
     
     @RequestMapping(value = "/home", method = RequestMethod.GET)

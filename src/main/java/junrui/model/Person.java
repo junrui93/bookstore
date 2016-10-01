@@ -11,6 +11,8 @@ public class Person {
 
     private String bibtex;
 
+    private Integer entityId;
+
     public Integer getId() {
         return id;
     }
@@ -49,5 +51,13 @@ public class Person {
 
     public void setBibtex(String bibtex) {
         this.bibtex = bibtex == null ? null : bibtex.trim();
+    }
+
+    public Integer getEntityId() {
+        return entityId;
+    }
+
+    public void setEntityId(Integer entityId) {
+        this.entityId = entityId;
     }
 }

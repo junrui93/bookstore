@@ -45,7 +45,8 @@
         </javaClientGenerator>
 
         <!--对应数据库表名 -->
-        <table tableName="venue" />
+        <table tableName="graph_entity" />
+        <table tableName="graph_relation" />
 
     </context>
 </generatorConfiguration>

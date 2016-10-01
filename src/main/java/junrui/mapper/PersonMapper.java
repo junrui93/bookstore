@@ -22,4 +22,6 @@ public interface PersonMapper {
     List<Person> selectByPublicationId(
             @Param("publicationId") int publicationId,
             @Param("type") Integer type);
+
+    List<Person> selectByType(int type);
 }

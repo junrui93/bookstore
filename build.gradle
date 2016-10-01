@@ -28,6 +28,7 @@ dependencies {
     compile 'com.sun.jersey:jersey-core:1.19.2'
     compile 'com.sun.jersey:jersey-client:1.19.2'
     compile 'com.sun.jersey.contribs:jersey-multipart:1.19.2'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.8.3'
     testCompile 'junit:junit:4.12'
     testCompile 'org.springframework:spring-test:4.3.2.RELEASE'
 }

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="junrui.mapper.GraphRelationMapper">
+  <resultMap id="BaseResultMap" type="junrui.model.GraphRelation">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="subject_id" jdbcType="INTEGER" property="subjectId" />
+    <result column="object_id" jdbcType="INTEGER" property="objectId" />
+    <result column="edge_id" jdbcType="INTEGER" property="edgeId" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from graph_relation
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="GraphRelation">
+    insert into graph_relation (id, subject_id, object_id, edge_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{subjectId,jdbcType=INTEGER}, #{objectId,jdbcType=INTEGER}, #{edgeId}
+      )
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="junrui.model.GraphRelation">
+    update graph_relation
+    set subject_id = #{subjectId,jdbcType=INTEGER},
+      object_id = #{objectId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, subject_id, object_id, edge_id
+    from graph_relation
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, subject_id, object_id, edge_id
+    from graph_relation
+  </select>
+  <select id="selectByEntityIds" resultType="GraphRelation">
+    select id, subject_id, object_id, edge_id
+    from graph_relation
+    where subject_id in
+    <foreach collection="collection" index="index" item="item" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+    or object_id in
+    <foreach collection="collection" index="index" item="item" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+</mapper>

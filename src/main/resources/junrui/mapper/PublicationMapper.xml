@@ -64,9 +64,10 @@
     left join publ_type pt on pt.id = p.type_id
     where p.id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectAll" resultMap="BaseResultMap">
-    select id, type_id, title, venue, year, price, removed, image_path, description
-    from publication
+  <select id="selectAll" resultType="Publication">
+    select p.id, type_id, title, venue, year, price, removed, image_path, description, t.name as type, venue_id
+    from publication p
+    left join publ_type t on t.id = p.type_id
   </select>
   <select id="selectByKeyword" resultMap="publResultMap">
     select

@@ -38,6 +38,8 @@ public class Publication {
 
     private User seller;
 
+    private Integer entityId;
+
     public String getType() {
         return type;
     }
@@ -156,5 +158,13 @@ public class Publication {
 
     public void setVenueId(Integer venueId) {
         this.venueId = venueId;
+    }
+
+    public Integer getEntityId() {
+        return entityId;
+    }
+
+    public void setEntityId(Integer entityId) {
+        this.entityId = entityId;
     }
 }
