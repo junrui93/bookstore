@@ -5,6 +5,8 @@ public class Venue {
 
     private String name;
 
+    private Integer entityId;
+
     public Integer getId() {
         return id;
     }
@@ -19,5 +21,13 @@ public class Venue {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public Integer getEntityId() {
+        return entityId;
+    }
+
+    public void setEntityId(Integer entityId) {
+        this.entityId = entityId;
     }
 }

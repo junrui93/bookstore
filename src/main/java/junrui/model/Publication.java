@@ -44,6 +44,8 @@ public class Publication {
     	return publTypeName.getName();
     }
 
+    private Integer entityId;
+
     public String getType() {
         return type;
     }
@@ -163,8 +165,18 @@ public class Publication {
     public void setVenueId(Integer venueId) {
         this.venueId = venueId;
     }
+
     //YH Testing
     public String toString(){
     	return this.getId()+" | "+this.getTypeId()+" | "+this.getTitle()+" | "+getPublTypeName();
+    }
+
+    public Integer getEntityId() {
+        return entityId;
+    }
+
+    public void setEntityId(Integer entityId) {
+        this.entityId = entityId;
+
     }
 }

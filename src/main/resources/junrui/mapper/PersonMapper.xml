@@ -44,4 +44,9 @@
       and p.type = #{type}
     </if>
   </select>
+  <select id="selectByType" resultMap="BaseResultMap">
+    select id, type, name, aux, bibtex
+    from person
+    where type = #{type}
+  </select>
 </mapper>
