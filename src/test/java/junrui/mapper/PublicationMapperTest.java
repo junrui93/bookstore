@@ -49,13 +49,19 @@ public class PublicationMapperTest {
     @Test
     public void testExample() 
     {   		
-    	List<Graph> graphStore = entityMapper.selectAll();
-    	entityMapper.deleteAll();
-    	for(Graph g : graphStore)
-    	{ 		
-    		logger.debug(g.getNodeFrom()+"-"+g.getNodeEdge()+"-"+g.getNodeTo());
-    		entityMapper.insertGraph(g);
+    	String keyword = "Risk";
+    	List<Graph> resultList = entityMapper.graphSearch(keyword);
+    	for(Graph g : resultList){
+    		if(g.getNodeFrom().startsWith("P")){
+    			String title = entityMapper.selectTitle(g.getNodeFrom());
+    			System.out.println(title);
+    		}
+    		
     	}
+    	
+    			
+    	//logger.debug(g.getNodeFrom()+"-"+g.getNodeEdge()+"-"+g.getNodeTo());
+    	
     }
     
     

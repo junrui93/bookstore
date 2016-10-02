@@ -28,6 +28,10 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOError;
@@ -64,164 +68,34 @@ public class PageController {
     private EntityMapper entityMapper;
 
     @RequestMapping(value = "/graph", method = RequestMethod.GET)
-    public String graph() {
-    	List<Publication> publications = entityMapper.selectedAttributes();
-    	for(Publication pub : publications) 
-    	{  	
-    		Entity entry1 = new Entity();	
-    		entry1.setEntityId(pub.getId());  			
-    		entry1.setEntityAttribute("Type");
-    		entry1.setAttributeValue(pub.getType());
-    		entityMapper.insertPub(entry1);
-    		
-    		Entity entry2 = new Entity();	
-    		entry2.setEntityId(pub.getId());  	
-    		entry2.setEntityAttribute("Class");
-    		entry2.setAttributeValue("entityNode");  		
-    		entityMapper.insertPub(entry2);
-    		
-    		Entity entry3 = new Entity();	
-    		entry3.setEntityId(pub.getId());  	
-    		entry3.setEntityAttribute("Title");
-    		entry3.setAttributeValue(pub.getTitle());  		
-    		entityMapper.insertPub(entry3);	
-    	}
-    	
-    	List<Person> persons = entityMapper.selectAllPersons();   
-    	for(Person person : persons)
+    public String graph(@RequestParam MultiValueMap<String, String> params, Map<String, Object> model)
+    {
+    	if (params.containsKey("keyword"))
     	{
-    		Entity entry1 = new Entity();	
-    		entry1.setPersonEntityId(person.getId());  			
-    		entry1.setEntityAttribute("Type");
-    		entry1.setPersonAttrValueType("Venue");
-    		entityMapper.insertPerson(entry1);
-    		
-    		Entity entry2 = new Entity();	
-    		entry2.setPersonEntityId(person.getId());  	
-    		entry2.setEntityAttribute("Class");
-    		entry2.setPersonAttrValueType("entityNode");  		
-    		entityMapper.insertPerson(entry2);
-    		
-    		Entity entry3 = new Entity();	
-    		entry3.setPersonEntityId(person.getId());  	
-    		entry3.setEntityAttribute("Name");
-    		entry3.setPersonAttrValueType(person.getName());  		
-    		entityMapper.insertPerson(entry3);
+            String keyword = params.getFirst("keyword");
+            System.out.print(keyword);
+            
+            List<Graph> resultList = entityMapper.graphSearch(keyword);
+            model.put("searchResult", resultList);
+            
+     		/*for(Graph g : resultList)
+     		{
+     			if(g.getNodeFrom().startsWith("P"))
+     			{
+     				entityMapper
+     				System.out.println(g.toString());
+     			}
+     			else
+     			{
+     				entityMapper
+     			}  		
+     		}*/
     	}
-    	
-    	List<Venue> venue = entityMapper.selectVenues();
-    	for(Venue v : venue)
-    	{
-    		Entity entry1 = new Entity();	
-    		entry1.setVenueEntityId(v.getId());  			
-    		entry1.setEntityAttribute("Type");
-    		entry1.setAttributeValue("Venue");
-    		entityMapper.insertVenue(entry1);
-    		
-    		Entity entry2 = new Entity();	
-    		entry2.setVenueEntityId(v.getId());  	
-    		entry2.setEntityAttribute("Class");
-    		entry2.setAttributeValue("entityNode");  		
-    		entityMapper.insertVenue(entry2);
-    		
-    		Entity entry3 = new Entity();	
-    		entry3.setVenueEntityId(v.getId());  	
-    		entry3.setEntityAttribute("Name");
-    		entry3.setAttributeValue(v.getName());  		
-    		entityMapper.insertVenue(entry3);
-    	}
-    	
-    	List<PublPerson> edges = entityMapper.selectLink();
-    	
-    	List<Entity> tmpList = new LinkedList<>();
-    	List<Graph> tmpGraph = new LinkedList<>();
-    	List<Publication> pubList = new LinkedList<>();    		
-    	int setEdgeId = 1;
-    	int counter = 0;
-
-    	for(PublPerson pp : edges)
-    	{	  				 		
-    		Graph g = new Graph();
-    		
-	    	Entity entryS = new Entity();
-	    	entryS.setEdgeEntityId(setEdgeId);
-	    	entryS.setEntityAttribute("Type");
-	    	entryS.setAttributeValue("directedLink");
-	    	tmpList.add(entryS);    
-	    		
-	    	Entity entryE = new Entity();
-	    	entryE.setEdgeEntityId(setEdgeId);
-	    	entryE.setEntityAttribute("Class");
-	    	entryE.setAttributeValue("Edge");
-	    	tmpList.add(entryE);
-	    		
-	    	Entity entryO = new Entity();
-	        entryO.setEdgeEntityId(setEdgeId);
-	        entryO.setEntityAttribute("Label");
-	        entryO.setAttributeValue("authoredBy "+pp.getAuthor());
-	        tmpList.add(entryO);
-
-        	g.setNodeFrom("P"+pp.getPublId());	
-            g.setNodeEdge("E"+setEdgeId);
-        	g.setNodeTo("A"+pp.getAuthor());
-        	      	
-        	Publication pubRecord = entityMapper.selectByPubId(pp.getPublId());
-        	if(pubRecord.getVenueId() != null)
-        	{    
-        		pubList.add(pubRecord);	
-        	}
-        	tmpGraph.add(g);
-        	setEdgeId++;
-    	}
-    	for(Publication p : pubList)
-    	{  			
-    		Graph g2 = new Graph();
-            if(p.getId() != counter)
-            {     
-            	counter = p.getId();
-            	
-	            Entity v1 = new Entity();
-	        	v1.setEdgeEntityId(setEdgeId);		
-	        	v1.setEntityAttribute("Type");
-	        	v1.setAttributeValue("directedLink");
-	        	tmpList.add(v1);
-	        	    	        		
-	        	Entity v2 = new Entity();
-	        	v2.setEdgeEntityId(setEdgeId);
-	        	v2.setEntityAttribute("Class");
-	        	v2.setAttributeValue("Edge");
-	        	tmpList.add(v2);
-	        	    	    			
-	        	Entity v3 = new Entity();
-	        	v3.setEdgeEntityId(setEdgeId);
-	        	v3.setEntityAttribute("Label");
-	        	v3.setAttributeValue("publishedIn "+p.getVenueId());
-	        	tmpList.add(v3);
-	        	    	   
-	        	g2.setNodeFrom("P"+p.getId());
-	        	g2.setNodeEdge("E"+setEdgeId);
-	        	g2.setNodeTo("V"+p.getVenueId());  	
-	               
-	    	    tmpGraph.add(g2);
-	    	    setEdgeId++;
-            }
-    	} 	
-    	for(Entity e : tmpList){
-    		entityMapper.insertEdge(e);  
-    	}
-    	for(Graph gList : tmpGraph){
-    		entityMapper.insertGraph(gList);  
-    	}
-    	
-    	List<Graph> graphStore = entityMapper.selectAll();
-    	entityMapper.deleteAll();
-    	for(Graph g : graphStore)
-    	{ 		
-    		entityMapper.insertGraph(g);
-    	}
-    	  		    	
-		return "graph.jsp";
-    }
+    	return "graph.jsp";
+    } 
+    
+    
+   
     
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String home(Map<String, Object> model) {
@@ -230,6 +104,7 @@ public class PageController {
         ids = ids.subList(0, 10);
         List<Publication> publications = publicationMapper.selectByIds(ids);
         model.put("publications", publications);
+        
         return "home.jsp";
     }
 
@@ -625,3 +500,158 @@ public class PageController {
         return "userstat.jsp";
     }
 }
+
+/*List<Publication> publications = entityMapper.selectedAttributes();
+for(Publication pub : publications) 
+{  	
+	Entity entry1 = new Entity();	
+	entry1.setEntityId(pub.getId());  			
+	entry1.setEntityAttribute("Type");
+	entry1.setAttributeValue(pub.getType());
+	entityMapper.insertPub(entry1);
+	
+	Entity entry2 = new Entity();	
+	entry2.setEntityId(pub.getId());  	
+	entry2.setEntityAttribute("Class");
+	entry2.setAttributeValue("entityNode");  		
+	entityMapper.insertPub(entry2);
+	
+	Entity entry3 = new Entity();	
+	entry3.setEntityId(pub.getId());  	
+	entry3.setEntityAttribute("Title");
+	entry3.setAttributeValue(pub.getTitle());  		
+	entityMapper.insertPub(entry3);	
+}
+
+List<Person> persons = entityMapper.selectAllPersons();   
+for(Person person : persons)
+{
+	Entity entry1 = new Entity();	
+	entry1.setPersonEntityId(person.getId());  			
+	entry1.setEntityAttribute("Type");
+	entry1.setPersonAttrValueType("Venue");
+	entityMapper.insertPerson(entry1);
+	
+	Entity entry2 = new Entity();	
+	entry2.setPersonEntityId(person.getId());  	
+	entry2.setEntityAttribute("Class");
+	entry2.setPersonAttrValueType("entityNode");  		
+	entityMapper.insertPerson(entry2);
+	
+	Entity entry3 = new Entity();	
+	entry3.setPersonEntityId(person.getId());  	
+	entry3.setEntityAttribute("Name");
+	entry3.setPersonAttrValueType(person.getName());  		
+	entityMapper.insertPerson(entry3);
+}
+
+List<Venue> venue = entityMapper.selectVenues();
+for(Venue v : venue)
+{
+	Entity entry1 = new Entity();	
+	entry1.setVenueEntityId(v.getId());  			
+	entry1.setEntityAttribute("Type");
+	entry1.setAttributeValue("Venue");
+	entityMapper.insertVenue(entry1);
+	
+	Entity entry2 = new Entity();	
+	entry2.setVenueEntityId(v.getId());  	
+	entry2.setEntityAttribute("Class");
+	entry2.setAttributeValue("entityNode");  		
+	entityMapper.insertVenue(entry2);
+	
+	Entity entry3 = new Entity();	
+	entry3.setVenueEntityId(v.getId());  	
+	entry3.setEntityAttribute("Name");
+	entry3.setAttributeValue(v.getName());  		
+	entityMapper.insertVenue(entry3);
+}
+
+List<PublPerson> edges = entityMapper.selectLink();
+
+List<Entity> tmpList = new LinkedList<>();
+List<Graph> tmpGraph = new LinkedList<>();
+List<Publication> pubList = new LinkedList<>();    		
+int setEdgeId = 1;
+int counter = 0;
+
+for(PublPerson pp : edges)
+{	  				 		
+	Graph g = new Graph();
+	
+	Entity entryS = new Entity();
+	entryS.setEdgeEntityId(setEdgeId);
+	entryS.setEntityAttribute("Type");
+	entryS.setAttributeValue("directedLink");
+	tmpList.add(entryS);    
+		
+	Entity entryE = new Entity();
+	entryE.setEdgeEntityId(setEdgeId);
+	entryE.setEntityAttribute("Class");
+	entryE.setAttributeValue("Edge");
+	tmpList.add(entryE);
+		
+	Entity entryO = new Entity();
+    entryO.setEdgeEntityId(setEdgeId);
+    entryO.setEntityAttribute("Label");
+    entryO.setAttributeValue("authoredBy");
+    tmpList.add(entryO);
+
+	g.setNodeFrom("P"+pp.getPublId());	
+    g.setNodeEdge("E"+setEdgeId);
+	g.setNodeTo("A"+pp.getAuthor());
+	      	
+	Publication pubRecord = entityMapper.selectByPubId(pp.getPublId());
+	if(pubRecord.getVenueId() != null)
+	{    
+		pubList.add(pubRecord);	
+	}
+	tmpGraph.add(g);
+	setEdgeId++;
+}
+for(Publication p : pubList)
+{  			
+	Graph g2 = new Graph();
+    if(p.getId() != counter)
+    {     
+    	counter = p.getId();
+    	
+        Entity v1 = new Entity();
+    	v1.setEdgeEntityId(setEdgeId);		
+    	v1.setEntityAttribute("Type");
+    	v1.setAttributeValue("directedLink");
+    	tmpList.add(v1);
+    	    	        		
+    	Entity v2 = new Entity();
+    	v2.setEdgeEntityId(setEdgeId);
+    	v2.setEntityAttribute("Class");
+    	v2.setAttributeValue("Edge");
+    	tmpList.add(v2);
+    	    	    			
+    	Entity v3 = new Entity();
+    	v3.setEdgeEntityId(setEdgeId);
+    	v3.setEntityAttribute("Label");
+    	v3.setAttributeValue("publishedIn");
+    	tmpList.add(v3);
+    	    	   
+    	g2.setNodeFrom("P"+p.getId());
+    	g2.setNodeEdge("E"+setEdgeId);
+    	g2.setNodeTo("V"+p.getVenueId());  	
+           
+	    tmpGraph.add(g2);
+	    setEdgeId++;
+    }
+} 	
+for(Entity e : tmpList){
+	entityMapper.insertEdge(e);  
+}
+for(Graph gList : tmpGraph){
+	entityMapper.insertGraph(gList);  
+}
+
+List<Graph> graphStore = entityMapper.selectAll();
+entityMapper.deleteAll();
+for(Graph g : graphStore)
+{ 		
+	entityMapper.insertGraph(g);
+}*/

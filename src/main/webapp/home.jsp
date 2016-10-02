@@ -24,7 +24,7 @@
   <div id="simpleSearch">
     <h2>Search</h2>
     <p><a href="home?adv=1" class="toggle-search">Shift to Advanced Search</a></p>
-    <p><a href="graph.jsp" class="toggle-search">Proceed to Graph Search</a></p>
+    <p><a href="graph.jsp">Proceed to Graph Search</a></p>
     <div class="row">
       <div class="col-md-12">
         <form id="simpleSearchForm" class="form-inline" action="search" method="get">
@@ -78,7 +78,7 @@
               <option value="www">www</option>
             </select>
           </div>
-          <button class="btn btn-default" style="width:20%">Search</button
+          <button class="btn btn-default" style="width:20%">Search</button>
         </form>
       </div>
     </div>
