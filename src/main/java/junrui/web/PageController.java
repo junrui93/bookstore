@@ -1,11 +1,7 @@
 package junrui.web;
 
 import junrui.data.GraphResult;
-import junrui.logic.GraphSearchLogic;
-import junrui.logic.OrderLogic;
-import junrui.logic.SearchLogic;
-import junrui.logic.UserLogic;
-import junrui.mapper.EntityMapper;
+import junrui.logic.*;
 import junrui.mapper.OrderMapper;
 import junrui.mapper.PublicationMapper;
 import junrui.mapper.UserMapper;
@@ -511,6 +507,13 @@ public class PageController {
         model.put("user", user);
         model.put("orders", orders);
         return "userstat.jsp";
+    }
+
+    @RequestMapping(value = "/mail", method = RequestMethod.POST)
+    @ResponseBody
+    public String mail(String to, String title, String content) {
+        Utils.sendEmail(to, title, content);
+        return "ok";
     }
 }
 
