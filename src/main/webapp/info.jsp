@@ -36,6 +36,10 @@
         </td>
       </tr>
       <tr>
+        <td>seller</td>
+        <td>${publ.seller.username}</td>
+      </tr>
+      <tr>
         <td>price</td>
         <td><strong class="text-danger">$${publ.price}</strong></td>
       </tr>

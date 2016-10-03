@@ -57,11 +57,12 @@
       description = #{description,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="publResultMap">
     select p.id, type_id, title, venue, year, price, removed, image_path, description, pt.name as type,
-           seller_id, venue_id
+           seller_id, venue_id, u.id as seller_id, u.username as seller_username, u.email as seller_email
     from publication p
     left join publ_type pt on pt.id = p.type_id
+    left join user u on u.id = p.seller_id
     where p.id = #{id,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultType="Publication">
