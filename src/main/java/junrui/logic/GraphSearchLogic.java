@@ -65,9 +65,11 @@ public class GraphSearchLogic {
             }
             if ("class".equals(entity.getKey())) {
                 if ("publication".equals(entity.getValue())) {
-                    entityMap.get(entityId).put("color", "orange");
+                    entityMap.get(entityId).put("group", "1");
+                } else if ("author".equals(entity.getValue())) {
+                    entityMap.get(entityId).put("group", "2");
                 } else if ("venue".equals(entity.getValue())) {
-                    entityMap.get(entityId).put("color", "lime");
+                    entityMap.get(entityId).put("group", "3");
                 }
             }
         }
@@ -77,6 +79,15 @@ public class GraphSearchLogic {
             nodes.add(entityMap.get(id));
 
         }
+
+        for (GraphRelation relation : relations) {
+            if ("author".equals(entityMap.get(relation.getObjectId()).get("class"))) {
+                relation.setEdgeLabel("authoredBy");
+            } else if ("venue".equals(entityMap.get(relation.getObjectId()).get("class"))) {
+                relation.setEdgeLabel("publishedIn");
+            }
+        }
+
         GraphResult result = new GraphResult();
         result.setNodes(nodes);
         result.setLinks(relations);

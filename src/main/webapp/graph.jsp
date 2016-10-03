@@ -40,6 +40,10 @@
 
       nodes = graph.nodes;
       edges = graph.links;
+      edges.forEach(function(item, index) {
+          item.font = {align: 'middle'};
+          //item.label = item.edgeLabel;
+      });
 
       // Instantiate our network object.
       var container = document.getElementById('mynetwork');
@@ -50,12 +54,17 @@
       var options = {
         nodes: {
           shape: 'dot',
+          size: 10,
           scaling:{
             label: {
               min:8,
               max:20
             }
           }
+        },
+        edges: {
+          width: 2,
+          shadow:true
         }
       };
       network = new vis.Network(container, data, options);

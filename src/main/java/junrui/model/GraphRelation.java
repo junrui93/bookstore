@@ -13,6 +13,8 @@ public class GraphRelation {
 
     private Integer edgeId;
 
+    private String edgeLabel;
+
     public Integer getId() {
         return id;
     }
@@ -43,5 +45,13 @@ public class GraphRelation {
 
     public void setEdgeId(Integer edgeId) {
         this.edgeId = edgeId;
+    }
+
+    public String getEdgeLabel() {
+        return edgeLabel;
+    }
+
+    public void setEdgeLabel(String edgeLabel) {
+        this.edgeLabel = edgeLabel;
     }
 }
