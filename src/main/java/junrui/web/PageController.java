@@ -388,7 +388,7 @@ public class PageController {
                     Integer yearTo = yearFrom;
                     if (params.containsKey("yearto") && !params.getFirst("yearto").isEmpty()) {
                         try {
-                            yearTo = Integer.parseInt(params.getFirst("yearfrom"));
+                            yearTo = Integer.parseInt(params.getFirst("yearto"));
                         } catch (NumberFormatException e) {
                             logger.warn(e.getMessage());
                         }
