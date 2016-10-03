@@ -20,19 +20,13 @@
     var network = null;
 
     var nFrom, nEdge, nTo;
-    var resultList = [];
-    <c:forEach var="result" items="${searchResult}">
-  		nFrom = "${result.nodeFrom}";
-  		nEdge = "${result.nodeEdge}"; 
-  		nTo = "${result.nodeTo}";
+    var resultList = []
   	
-  		resultList.push(nFrom, nEdge, nTo);
-  	</c:forEach> 
-  	
-    function draw() {
+    function draw(graph) {
       // create people.
       // value corresponds with the age of the person
-      
+
+      /*
       nodes = [
 				{id: 1,  value: 2,  label: 'Algie' },
 				{id: 2,  value: 31, label: 'Alston'},
@@ -42,6 +36,10 @@
 				{from: 1, to: 2, value: 3, title: '3 emails per week'},
 				{from: 1, to: 3, value: 5, title: '5 emails per week'},
 			];
+      */
+
+      nodes = graph.nodes;
+      edges = graph.links;
 
       // Instantiate our network object.
       var container = document.getElementById('mynetwork');
@@ -62,37 +60,12 @@
       };
       network = new vis.Network(container, data, options);
     }
-  </script>
+</script>
 
 </head>
-<body onload="draw()">
+<body>
 
 <div class="container">
-	<nav class="navbar navbar-default">
-	  <div class="container-fluid">
-		<div class="navbar-header">     
-	      <a class="navbar-brand" href="home">Digital Library</a>
-	    </div>
-	   </div>
-	</nav>
-	<h1>Graph Search</h1>
-	<div class="row">
-      <div class="col-md-12">
-	        <form id="simpleSearchForm" class="form-inline" action="graph" method="get">
-	          <div class="form-group" style="width:79.5%">
-	            <input class="form-control" type="text" name="keyword" placeholder="Keywords (Author, Journal, Venue.)" style="width:100%">
-	          </div>
-	          <button class="btn btn-default" style="width:20%">Search</button>
-	        </form>
-	      </div>
-    	</div>
-	    
-    
-	<div id="mynetwork"></div>
-	<c:forEach var="result" items="${searchResult}">
-		<c:out value="${result.nodeFrom}->${result.nodeEdge}->${result.nodeTo}"/><br/>
-    </c:forEach>
-	
 
 <%@ include file="nav.jsp" %>
 <h2>Graph Search</h2>
@@ -115,10 +88,12 @@
     </div>
   </div>
 
+
 </div>
 </form>
 
-<svg width="960" height="600" style="border:1px solid;"></svg>
+<!-- <svg width="960" height="600" style="border:1px solid;"></svg> -->
+<div id="mynetwork"></div>
 </div>
 
 <script src="https://d3js.org/d3.v4.min.js"></script>
@@ -128,7 +103,10 @@ $("#searchForm").submit(function(e) {
     e.preventDefault();
     $.post('/graph', $(this).serialize(), function(data) {
         console.log(data);
-        render(data);
+        draw(data);
+        if (data.nodes.length == 0) {
+            alert("nothing found");
+        }
     });
 });
 

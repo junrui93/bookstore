@@ -1,5 +1,7 @@
 package junrui.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -13,6 +15,7 @@ public class Publication {
 
     private Integer venueId;
 
+    @JsonProperty("label")
     private String title;
 
     private String venue;

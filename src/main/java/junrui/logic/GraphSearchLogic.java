@@ -59,6 +59,17 @@ public class GraphSearchLogic {
                 entityMap.put(entityId, node);
             }
             entityMap.get(entityId).put(entity.getKey(), entity.getValue());
+            if ("name".equals(entity.getKey())) {
+                entityMap.get(entityId).put("label", entity.getValue());
+                entityMap.get(entityId).put("title", entity.getValue());
+            }
+            if ("class".equals(entity.getKey())) {
+                if ("publication".equals(entity.getValue())) {
+                    entityMap.get(entityId).put("color", "orange");
+                } else if ("venue".equals(entity.getValue())) {
+                    entityMap.get(entityId).put("color", "lime");
+                }
+            }
         }
 
         List<Map<String, String>> nodes = new ArrayList<>();

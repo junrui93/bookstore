@@ -5,10 +5,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class GraphRelation {
     private Integer id;
 
-    @JsonProperty("source")
+    @JsonProperty("from")
     private Integer subjectId;
 
-    @JsonProperty("target")
+    @JsonProperty("to")
     private Integer objectId;
 
     private Integer edgeId;

@@ -2,6 +2,7 @@ package junrui.web;
 
 import junrui.data.GraphResult;
 import junrui.logic.*;
+import junrui.mapper.EntityMapper;
 import junrui.mapper.OrderMapper;
 import junrui.mapper.PublicationMapper;
 import junrui.mapper.UserMapper;

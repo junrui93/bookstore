@@ -1,5 +1,7 @@
 package junrui.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class Person {
     private Integer id;
 
