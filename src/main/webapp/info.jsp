@@ -93,7 +93,7 @@
 $(function() {
     $('.add-cart').click(function() {
         var publicationId = $(this).attr('publicationId');
-        $.post("/cart/add?id=" + publicationId, function() {
+        $.post("cart/add?id=" + publicationId, function() {
             location.reload();
         });
     });
@@ -101,7 +101,7 @@ $(function() {
     $('a.remove, a.restore').click(function(e) {
         e.preventDefault();
         var publicationId = $(this).attr('publicationId');
-        $.post("/seller/toggleremoved?id=" + publicationId, function() {
+        $.post("seller/toggleremoved?id=" + publicationId, function() {
             location.reload();
         });
     });

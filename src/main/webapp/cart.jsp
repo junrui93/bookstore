@@ -130,7 +130,7 @@ $(function() {
 
         var orderId = $(this).attr('orderId');
         var action = $(this).attr('action');
-        $.post("/cart/" + action + "?id=" + orderId, function() {
+        $.post("cart/" + action + "?id=" + orderId, function() {
             location.reload();
         });
     });
@@ -152,7 +152,7 @@ $(function() {
 
     $('#buyButton2').click(function(e) {
         e.preventDefault();
-        $.post("/cart/commit?id=0", function() {
+        $.post("cart/commit?id=0", function() {
             $cartForm.hide();
             $confirmTable.hide();
             $('#purchaseSuccess').show();

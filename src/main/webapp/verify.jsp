@@ -57,8 +57,8 @@ $(function() {
     $otherWarning = $('#otherWarning');
 
     $('#passwordForm').submit(function() {
-        $.post("/password", $(this).serialize(), function(data, textStatus) {
-            location.href = '/home';
+        $.post("password", $(this).serialize(), function(data, textStatus) {
+            location.href = 'home';
         })
         .fail(function(xhr) {
             $otherWarning.text(xhr.status + ' ' + xhr.statusText + ': ' + xhr.responseText);

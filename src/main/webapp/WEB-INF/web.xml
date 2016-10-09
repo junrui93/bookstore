@@ -7,10 +7,12 @@
          version="3.0">
 
     <!-- render html as jsp, works on tomcat and jetty, may not work on other server -->
+    <!--
     <servlet-mapping>
         <servlet-name>jsp</servlet-name>
         <url-pattern>*.html</url-pattern>
     </servlet-mapping>
+    -->
 
     <servlet>
         <servlet-name>dispatcher</servlet-name>

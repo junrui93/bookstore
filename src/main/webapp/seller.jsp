@@ -19,9 +19,9 @@
   <h2>Publication Management</h2>
 
   <ul class="nav nav-tabs" style="margin-bottom:15px;">
-    <li role="presentation" class="${param.action == 'add' ? 'active' : ''}"><a href="/seller?action=add">Add</a></li>
-    <li role="presentation" class="${param.action == 'remove' ? 'active' : ''}"><a href="/seller?action=remove">Pause</a></li>
-    <li role="presentation" class="${param.action == 'restore' ? 'active' : ''}"><a href="/seller?action=restore">Restore</a></li>
+    <li role="presentation" class="${param.action == 'add' ? 'active' : ''}"><a href="seller?action=add">Add</a></li>
+    <li role="presentation" class="${param.action == 'remove' ? 'active' : ''}"><a href="seller?action=remove">Pause</a></li>
+    <li role="presentation" class="${param.action == 'restore' ? 'active' : ''}"><a href="seller?action=restore">Restore</a></li>
   </ul>
 
   <c:if test="${param.action == 'add'}">
@@ -160,7 +160,7 @@ $(function() {
     $('a.remove, a.restore').click(function(e) {
         e.preventDefault();
         var publicationId = $(this).attr('publicationId');
-        $.post("/seller/toggleremoved?id=" + publicationId, function() {
+        $.post("seller/toggleremoved?id=" + publicationId, function() {
             location.reload();
         });
     });
@@ -188,7 +188,7 @@ $(function() {
         e.preventDefault();
         var fd = new FormData($(this)[0]);
         $.ajax({
-            url: "/seller/add",
+            url: "seller/add",
             type: 'post',
             data: fd,
             contentType: false,

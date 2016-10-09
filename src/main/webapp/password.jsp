@@ -43,7 +43,7 @@ $(function() {
     $updateSucceeded = $('#updateSucceeded');
 
     $('#passwordForm').submit(function() {
-        $.post("/password", $(this).serialize(), function(data, textStatus) {
+        $.post("password", $(this).serialize(), function(data, textStatus) {
             $otherWarning.hide();
             $updateSucceeded.show();
         })

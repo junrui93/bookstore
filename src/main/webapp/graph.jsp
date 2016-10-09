@@ -42,7 +42,7 @@
       edges = graph.links;
       edges.forEach(function(item, index) {
           item.font = {align: 'middle'};
-          //item.label = item.edgeLabel;
+          item.label = item.edgeLabel;
       });
 
       // Instantiate our network object.
@@ -110,7 +110,7 @@
 
 $("#searchForm").submit(function(e) {
     e.preventDefault();
-    $.post('/graph', $(this).serialize(), function(data) {
+    $.post('graph', $(this).serialize(), function(data) {
         console.log(data);
         draw(data);
         if (data.nodes.length == 0) {

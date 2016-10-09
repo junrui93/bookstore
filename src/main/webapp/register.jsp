@@ -93,7 +93,7 @@ $(function() {
 
     $('#registerForm').submit(function() {
         var email = $('#inputEmail').val();
-        $.post("/register", $(this).serialize(), function(data, textStatus) {
+        $.post("register", $(this).serialize(), function(data, textStatus) {
             console.log(data);
             console.log(textStatus);
             $email.text(email);

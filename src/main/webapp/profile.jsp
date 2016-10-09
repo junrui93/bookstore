@@ -117,7 +117,7 @@ $(function() {
     });
 
     $profileForm.submit(function() {
-        $.post("/profile", $(this).serialize(), function(data, textStatus) {
+        $.post("profile", $(this).serialize(), function(data, textStatus) {
             console.log(data);
             console.log(textStatus);
             location.reload();

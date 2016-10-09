@@ -16,7 +16,7 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li><a href="/graph">Graph Search</a></li>
+        <li><a href="graph">Graph Search</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li><a href="register">Sign up</a></li>
@@ -28,17 +28,17 @@
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${user.username} <span class="caret"></span></a>
             <ul class="dropdown-menu">
-              <li><a href="/profile">Profile</a></li>
-              <li><a href="/password">Change Password</a></li>
+              <li><a href="profile">Profile</a></li>
+              <li><a href="password">Change Password</a></li>
               <li role="separator" class="divider"></li>
               <c:if test="${user.type == 0}">
-                <li><a href="/cart">Shopping Cart</a></li>
+                <li><a href="cart">Shopping Cart</a></li>
               </c:if>
               <c:if test="${user.type == 1}">
-                <li><a href="/seller?action=add">Publication Management</a></li>
+                <li><a href="seller?action=add">Publication Management</a></li>
               </c:if>
               <li role="separator" class="divider"></li>
-              <li><a id="logout" href="/logout">Logout</a></li>
+              <li><a id="logout" href="logout">Logout</a></li>
             </ul>
           </li>
         </c:otherwise>
@@ -127,7 +127,7 @@ $(function() {
 
     $("#logout").click(function (e) {
         e.preventDefault();
-        $.post("/logout", function() {
+        $.post("logout", function() {
             location.reload();
         });
     });
@@ -143,7 +143,7 @@ $(function() {
     $("#login-form").submit(function () {
         var $lg_username=$('#login_username').val();
         var $lg_password=$('#login_password').val();
-        $.post("/login", $(this).serialize(), function() {
+        $.post("login", $(this).serialize(), function() {
             msgChange($('#div-login-msg'), $('#icon-login-msg'), $('#text-login-msg'), "success", "glyphicon-ok", "Login OK");
             location.reload();
         })

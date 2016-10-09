@@ -130,7 +130,7 @@ $(function() {
     $('.add-cart').click(function() {
         var publicationId = $(this).attr('publicationId');
         var button = $(this);
-        $.post("/cart/add?id=" + publicationId, function() {
+        $.post("cart/add?id=" + publicationId, function() {
             button.tooltip('show');
             window.setTimeout(function() {
                 button.tooltip('hide');

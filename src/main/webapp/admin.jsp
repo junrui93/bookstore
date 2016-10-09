@@ -14,9 +14,9 @@
 
   <h2>Admin</h2>
   <ul class="nav nav-tabs" style="margin-bottom:15px;">
-    <li role="presentation" class="${param.action == 'remove' ? 'active' : ''}"><a href="/admin?action=remove">Remove Publication</a></li>
-    <li role="presentation" class="${param.action == 'user' ? 'active' : ''}"><a href="/admin?action=user">User Info</a></li>
-    <li role="presentation"><a href="/admin/logout">Logout</a></li>
+    <li role="presentation" class="${param.action == 'remove' ? 'active' : ''}"><a href="admin?action=remove">Remove Publication</a></li>
+    <li role="presentation" class="${param.action == 'user' ? 'active' : ''}"><a href="admin?action=user">User Info</a></li>
+    <li role="presentation"><a href="admin/logout">Logout</a></li>
   </ul>
 
   <c:if test="${param.action == 'remove'}">
@@ -53,7 +53,7 @@
           <c:forEach var="publ" items="${publications}">
             <tr>
               <td>${publ.id}</td>
-              <td><a href="/info?id=${publ.id}&view=admin" target="_blank">${publ.title}</a></td>
+              <td><a href="info?id=${publ.id}&view=admin" target="_blank">${publ.title}</a></td>
               <td>
                 <c:forEach var="author" items="${publ.authors}" varStatus="status">
                   ${author.name}${status.last ? '' : ','}
@@ -115,7 +115,7 @@
           <c:forEach var="customer" items="${customers}">
             <tr class="${customer.banned == true ? 'warning' : ''}">
               <td>${customer.id}</td>
-              <td><a href="/admin/userstat?id=${customer.id}" target="_blank">${customer.username}</a></td>
+              <td><a href="admin/userstat?id=${customer.id}" target="_blank">${customer.username}</a></td>
               <td>${customer.email}</td>
               <td>${customer.nickname}</td>
               <td>${customer.firstName}</td>
@@ -148,7 +148,7 @@ $(function() {
         e.preventDefault();
         var customerId = $(this).attr('customerId');
         var thisButton = $(this);
-        $.post("/admin/togglebanned?id=" + customerId, function () {
+        $.post("admin/togglebanned?id=" + customerId, function () {
             location.reload();
         });
     });
@@ -156,7 +156,7 @@ $(function() {
     $('.remove-publ').click(function (e) {
         e.preventDefault();
         var publicationId = $(this).attr('publicationId');
-        $.post("/admin/remove?id=" + publicationId, function () {
+        $.post("admin/remove?id=" + publicationId, function () {
             location.reload();
         });
     });

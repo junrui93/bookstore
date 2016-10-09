@@ -20,6 +20,11 @@
         <property name="username" value="root" />
         <property name="password" value="" />
     </bean>
+    <!--
+    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="java:comp/env/jdbc/MyLocalDB"/>
+    </bean>
+    -->
 
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />
