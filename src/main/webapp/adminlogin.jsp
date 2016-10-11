@@ -14,7 +14,7 @@
 
     <div class="container">
 
-      <form class="form-signin" action="admin/login" method="POST">
+      <form class="form-signin" method="POST">
         <h2 class="form-signin-heading">Admin Login</h2>
         <label for="inputEmail" class="sr-only">Username</label>
         <input type="text" id="inputEmail" class="form-control" name="username" placeholder="Username" required autofocus>
